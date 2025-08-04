@@ -1,0 +1,3166 @@
+/* ------------------------------------------------------------------------
+   Hero Section
+------------------------------------------------------------------------ */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.hero-title-image,
+.hero-title-text {
+  filter: drop-shadow(0 0 40px rgba(255, 183, 0, 0.6));
+  animation: gradientGlow 3s ease-in-out infinite;
+}
+
+@keyframes gradientGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 40px rgba(255, 183, 0, 0.6));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 60px rgba(255, 183, 0, 0.9))
+      drop-shadow(0 0 30px rgba(255, 140, 0, 0.7));
+  }
+}
+
+.hero-title-image {
+  max-width: 80%;
+  height: auto;
+}
+
+.hero-title-text {
+  font-family: 'Jockey One', sans-serif;
+  font-size: 3rem;
+  color: #ffb700;
+  margin: 0;
+}
+
+.hero-subtitle {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------------
+   Page Template Overrides
+------------------------------------------------------------------------ */
+.page-content {
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+}
+
+.page-content .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-content .entry-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-content .entry-title {
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.page-content .entry-content {
+  color: #fff;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 100px 15px 40px;
+  }
+  .page-content .entry-title {
+    font-size: 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Albums Section
+------------------------------------------------------------------------ */
+.albums-section {
+  background: #111;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.albums-section-top-title,
+.albums-section-bottom-title {
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.albums-section-top-title {
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.albums-section-bottom-title {
+  margin-top: 60px;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.albums-grid {
+  display: grid;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin-bottom: 60px;
+}
+
+.album-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.album-image-wrapper {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #ffb700;
+  box-shadow: 0 10px 30px rgba(255, 183, 0, 0.3);
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.album-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.album-item:hover .album-image-wrapper {
+  border-color: #ff6b35;
+  box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+}
+
+.album-item:hover .album-image-wrapper img {
+  transform: scale(1.05);
+}
+
+.album-title {
+  color: #ffb700;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .albums-section {
+    padding: 60px 0;
+  }
+  .albums-section-top-title,
+  .albums-section-bottom-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  .album-image-wrapper {
+    width: 140px;
+    height: 140px;
+    border-width: 3px;
+  }
+  .album-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .albums-grid {
+    gap: 20px;
+  }
+  .album-image-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+  .album-title {
+    font-size: 0.95rem;
+  }
+  .albums-section-top-title,
+  .albums-section-bottom-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+}
+
+
+/* ------------------------------------------------------------------------
+   Social Mozaic Section
+------------------------------------------------------------------------ */
+.social-section {
+  position: relative;
+  padding: 80px 0;
+  background: #000;
+}
+
+/* Desktop grid: 3 rows of 11 items */
+.social-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-rows: repeat(3, 200px);
+  gap: 10px;
+}
+
+/* Mobile grid: 2 columns, 5 items */
+.social-mobile-grid {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .social-grid-desktop { display: none; }
+  .social-mobile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .social-mobile-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+@media (min-width: 769px) {
+  .social-mobile-grid { display: none; }
+}
+
+.social-item,
+.social-mobile-item {
+  display: block;
+  overflow: hidden;
+}
+
+.social-item img,
+.social-mobile-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.social-item:hover img,
+.social-mobile-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Force the WooCommerce shop navbar to stay in flex layout */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Ensure the three navbar areas sit side-by-side */
+.nav-logo,
+.nav-links,
+.nav-cart {
+  flex: 0 0 auto;
+}
+
+/* Lay out the links in a row */
+.nav-links {
+  display: flex !important;
+  gap: 40px;
+}
+
+
+/* ------------------------------
+   Shop Archive Header & Filters
+   ------------------------------ */
+
+/* Center the whole header area */
+.shop-header {
+  text-align: center !important;
+  padding: 80px 20px 60px !important;
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+/* “Shop” title styling */
+.shop-header .shop-title {
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 4.5rem !important;
+  color: #ffb700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 20px !important;
+  text-shadow: 0 0 20px rgba(255,183,0,0.5) !important;
+}
+
+/* Description paragraph */
+.shop-header .shop-description p {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.2rem !important;
+  line-height: 1.6 !important;
+  color: #eee !important;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Filters container centering */
+.shop-filters {
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 20px !important;
+  margin-top: 40px !important;
+}
+
+/* Base style for filter buttons */
+.shop-filters .filter-btn {
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.3rem !important;
+  text-transform: uppercase !important;
+  padding: 15px 40px !important;
+  border: 2px solid #fff !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #fff !important;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease !important;
+}
+
+/* Active & hover state */
+.shop-filters .filter-btn:hover,
+.shop-filters .filter-btn.active {
+  color: #ffb700 !important;
+  border-color: #ffb700 !important;
+  box-shadow: 0 0 15px rgba(255,183,0,0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Ensure mobile responsiveness */
+@media (max-width: 768px) {
+  .shop-header .shop-title {
+    font-size: 3rem !important;
+  }
+  .shop-header .shop-description p {
+    font-size: 1rem !important;
+  }
+  .shop-filters .filter-btn {
+    font-size: 1.1rem !important;
+    padding: 12px 30px !important;
+  }
+}
+
+/* Reduce the space above the Shop header */
+.shop-page-wrapper {
+  /* originally you had padding-top: 110px; */
+  padding-top: 80px !important;  /* bring it closer under navbar */
+}
+
+/* Also reduce the bottom gap on the header */
+.shop-header {
+  /* tighten the top and bottom padding */
+  padding: 40px 20px 40px !important;
+  margin-bottom: 40px !important; /* if you had a margin, shrink it */
+}
+
+
+/* Vynúti flex layout na shop & archive-product stránkach */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Prípadne ešte vynúti viditeľnosť */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ak by stále niečo rušilo, zrušíme tie staré display:block */
+body.woocommerce-shop .navbar[style*="display:block"],
+body.post-type-archive-product .navbar[style*="display:block"] {
+  display: flex !important;
+}
+
+/* A zredukujeme padding/margin medzi headerom a hlavičkou Shop */
+.woocommerce-shop .page-title,
+body.post-type-archive-product .page-title {
+  margin-top: 0.5em !important;
+  padding-top: 1em !important;
+}
+
+/* 1) Remove grey background from first column in Cart Totals table */
+.cart_totals .shop_table th,
+.cart_totals .shop_table td {
+  background: transparent !important;
+}
+
+/* If only the first column was grey, target it explicitly: */
+.cart_totals .shop_table tr th:first-child,
+.cart_totals .shop_table tr td:first-child {
+  background: transparent !important;
+}
+
+/* 2) Normalize the Proceed to Checkout button */
+.cart_totals .wc-proceed-to-checkout .checkout-button,
+.cart_totals a.checkout-button {
+  /* Remove gradient/animation pseudo-element */
+  position: relative;
+  overflow: visible;
+  transition: none !important;
+}
+.cart_totals .wc-proceed-to-checkout .checkout-button::before {
+  display: none !important;
+}
+
+/* 3) Match other buttons’ look & feel */
+.cart_totals .wc-proceed-to-checkout .checkout-button {
+  background: #ffb700 !important;    /* same as your other .button .checkout-button */
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-weight: bold !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255, 183, 0, 0.3) !important;
+}
+.cart_totals .wc-proceed-to-checkout .checkout-button:hover {
+  background: #ff8c00 !important;
+  transform: translateY(0) !important; /* remove lift */
+  box-shadow: 0 8px 25px rgba(255, 183, 0, 0.6) !important;
+}
+
+/* === Cart Totals: Shipping row styling === */
+
+/* 1) Make the Shipping label and value left-aligned, transparent, with matching padding */
+.cart_totals .shipping th,
+.cart_totals .shipping td {
+  text-align: left !important;
+  background: transparent !important;
+  padding: 15px 0 !important;
+  font-family: 'Jockey One', sans-serif;
+  font-weight: bold;
+}
+
+/* 2) Inline the selected shipping method (remove bullet) */
+.cart_totals .shipping ul.woocommerce-shipping-methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cart_totals .shipping ul.woocommerce-shipping-methods li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3) Restore WooCommerce’s default toggle behavior:
+      - the form is hidden by default
+      - clicking the “Calculate shipping” button opens it
+   Only add spacing on the button here, don’t force the form open */
+.cart_totals .shipping-calculator-button {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* 4) Ensure the destination note uses your fonts & spacing */
+.cart_totals .woocommerce-shipping-destination {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* ================================
+   Force flex navbar on Cart page
+   ================================ */
+
+/* 1) Flex container on cart pages */
+body.woocommerce-cart .navbar,
+body.cart .navbar,
+body.woocommerce-page.woocommerce-cart .navbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 2) Ensure the three navbar sections stay side‐by‐side */
+body.woocommerce-cart .nav-logo,
+body.woocommerce-cart .nav-links,
+body.woocommerce-cart .nav-cart {
+  flex: 0 0 auto;
+}
+
+/* 3) Lay out links in a row */
+body.woocommerce-cart .nav-links {
+  display: flex !important;
+  gap: 40px;
+}
+
+
+/* === Checkout Page Global === */
+body.woocommerce-checkout {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+body.woocommerce-checkout h2,
+body.woocommerce-checkout .woocommerce-billing-fields__title,
+body.woocommerce-checkout .woocommerce-shipping-fields__title {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+/* === Form Inputs === */
+.woocommerce-checkout input.input-text,
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+  background: #111 !important;
+  border: 2px solid #333 !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  padding: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif !important;
+}
+.woocommerce-checkout input.input-text:focus,
+.woocommerce-checkout select:focus,
+.woocommerce-checkout textarea:focus {
+  border-color: #ffb700 !important;
+  box-shadow: 0 0 10px rgba(255,183,0,0.3) !important;
+  outline: none !important;
+}
+
+/* === Section Wrappers === */
+.woocommerce-checkout .woocommerce-billing-fields,
+.woocommerce-checkout .woocommerce-shipping-fields,
+.woocommerce-checkout .woocommerce-additional-fields {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  border: 2px solid rgba(255,183,0,0.3);
+}
+
+/* === Shipping Options === */
+.woocommerce-checkout .woocommerce-shipping-methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.woocommerce-checkout .woocommerce-shipping-methods li {
+  margin-bottom: 10px;
+}
+.woocommerce-checkout .woocommerce-shipping-methods li label {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #111;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.woocommerce-checkout input[name^="shipping_method"]:checked + label {
+  border-color: #ffb700;
+  box-shadow: 0 0 15px rgba(255,183,0,0.6);
+  background: #111;
+}
+
+/* === Order Summary Panel === */
+.woocommerce-checkout .order-summary,
+.woocommerce-checkout .woocommerce-checkout-review-order-table {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid rgba(255,183,0,0.3);
+}
+.woocommerce-checkout .order-summary h3 {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.woocommerce-checkout .woocommerce-checkout-review-order-table th,
+.woocommerce-checkout .woocommerce-checkout-review-order-table td {
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding: 15px 0;
+}
+.woocommerce-checkout .woocommerce-checkout-review-order-table tfoot th {
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* === Payment Error Box === */
+.woocommerce-checkout .woocommerce-error,
+.woocommerce-checkout .woocommerce-notice {
+  background: #330000 !important;
+  border: 2px solid #ff4444 !important;
+  color: #ffbbbb !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  margin-bottom: 20px !important;
+}
+
+/* === Place Order & Return to Cart Buttons === */
+.woocommerce-checkout #place_order,
+.woocommerce-checkout .button.alt {
+  background: #ffb700 !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 15px 40px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255,183,0,0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+.woocommerce-checkout #place_order:hover,
+.woocommerce-checkout .button.alt:hover {
+  background: #ff8c00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255,183,0,0.6) !important;
+}
+
+/* “← Return to cart” link */
+.woocommerce-checkout .return-to-shop a {
+  color: #fff !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+.woocommerce-checkout .return-to-shop a:hover {
+  color: #ffb700 !important;
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 768px) {
+  .woocommerce-checkout .woocommerce-billing-fields,
+  .woocommerce-checkout .order-summary {
+    padding: 20px;
+  }
+  .woocommerce-checkout #place_order,
+  .woocommerce-checkout .button.alt {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+
+
+/* === Checkout: Place Order button === */
+.woocommerce-checkout #place_order {
+  background: #ffb700 !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 15px 40px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255,183,0,0.3) !important;
+  transition: all 0.3s ease !important;
+}
+.woocommerce-checkout #place_order:hover {
+  background: #ff8c00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255,183,0,0.6) !important;
+}
+
+/* === Checkout: Order Summary Sidebar === */
+.woocommerce-checkout .woocommerce-checkout-review-order {
+  background: #111 !important;
+  border: 2px solid rgba(255,183,0,0.3) !important;
+  border-radius: 12px !important;
+  padding: 30px !important;
+  margin-top: 40px !important;
+}
+
+/* Header (“Your order”) */
+.woocommerce-checkout .woocommerce-order-review-heading {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+/* Table cells */
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+  border-bottom: 1px solid #333 !important;
+  padding: 12px 0 !important;
+  color: #fff !important;
+}
+.woocommerce-checkout-review-order-table tfoot th {
+  color: #ffb700 !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 1px !important;
+}
+
+/* Coupon section */
+.woocommerce-checkout .checkout_coupon {
+  background: #111;
+  border: 2px solid rgba(255,183,0,0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+/* “Add a coupon” toggle link */
+.woocommerce-checkout .showcoupon {
+  color: #ffb700 !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+}
+.woocommerce-checkout .showcoupon:hover {
+  text-decoration: underline !important;
+}
+
+/* Ensure the sidebar stays full-width on mobile */
+@media (max-width: 768px) {
+  .woocommerce-checkout .woocommerce-checkout-review-order {
+    margin-top: 20px;
+    padding: 20px !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  /* Shrink the hero so it fits nicely on a phone */
+  .hero {
+    position: relative;
+    padding: 60px 15px 30px;  /* less top/bottom padding */
+    min-height: 50vh;         /* about half the screen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Full-cover background, no blur cutoffs */
+  .hero-background {
+    background-size: cover !important;
+    background-position: center center !important;
+    opacity: 0.5 !important;
+    filter: none !important;    /* remove blur so you see it clearly */
+  }
+
+  /* Semi-transparent dark overlay */
+  .hero-overlay {
+    background: rgba(0,0,0,0.4) !important;
+  }
+
+  /* Center the logo/text, constrain width */
+  .hero-content {
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  /* Logo graphic sizing */
+  .hero-title-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto 20px;
+    filter: drop-shadow(0 0 20px rgba(255,183,0,0.6));
+  }
+
+  /* If no image, fallback text styling */
+  .hero-title-text {
+    font-size: 2rem !important;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+
+  /* Subtitle smaller & legible */
+  .hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8) !important;
+    margin: 0;
+  }
+}
+
+
+  .banner-section-title {
+    display: none !important;
+  }
+
+@media (max-width: 768px) {
+  /* 1) Hide the “NOVINKY” heading if you still want that */
+  .banner-section .banner-section-title {
+    display: none !important;
+  }
+
+  /* 2) Make the banner fully swipeable, height auto */
+  .banner-carousel,
+  .banner-carousel-wrapper {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;      /* lock out vertical scroll */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    height: auto !important;            /* allow natural image height */
+    padding: 0 !important;
+  }
+
+  .banner-container {
+    display: flex !important;
+    transform: none !important;         /* disable any JS translate */
+    gap: 8px !important;                /* small gutters if you like */
+    padding: 0 8px !important;          /* peek a bit on the sides */
+  }
+
+  .banner-item {
+    flex: 0 0 100% !important;          /* each slide fills the viewport */
+    scroll-snap-align: start;
+    margin: 0 !important;               /* remove extra right margins */
+    height: auto !important;            /* let it expand to image height */
+  }
+
+  .banner-item img {
+    width: 100%;
+    height: auto !important;            /* preserve aspect ratio */
+    display: block;
+    object-fit: contain;                /* letter-box if needed */
+  }
+
+  /* 3) Remove arrows & dots on mobile */
+  .banner-btn,
+  .banner-indicators {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+
+  /* 2) Albums continuous scroll + touch-swipe */
+  .albums-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    /* Continuous loop animation */
+    animation: scrollAlbumsMobile 25s linear infinite;
+  }
+  .albums-grid::-webkit-scrollbar { display: none; }
+  .album-item {
+    flex: 0 0 auto !important;
+    width: 120px !important;
+    margin-right: 16px !important;
+    scroll-snap-align: center;
+  }
+  /* Duplicate gap on last so loop is smooth */
+  .album-item:last-child {
+    margin-right: 32px !important;
+  }
+
+  /* 3) Pause animation on hover/touch */
+  .albums-grid:hover,
+  .albums-grid:active {
+    animation-play-state: paused !important;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    /* override the desktop height */
+    height: 35vh !important;
+    /* tighten your padding */
+    padding: 50px 15px 20px !important;
+    /* remove any min-height so it doesn’t fight our new value */
+    min-height: 0 !important;
+  }
+
+  .hero-background {
+    /* ensure the background fills the new hero box */
+    height: 100% !important;
+  }
+
+  .hero-title-image {
+    /* shrink the logo into that 35vh box */
+    max-height: 20vh !important;
+    width: auto !important;
+    margin-bottom: 15px !important;
+  }
+}
+
+
+.albums-bottom-title {
+    margin-bottom: 0px !important;
+  }
+
+
+
+
+@media only screen and (max-width: 768px) {
+  /* 1) Make the tee fill more of the width */
+  .tshirt-hanging img {
+    max-width: 80% !important;    /* up from 70% so it’s nice and big */
+    width: auto !important;
+    margin: -25px auto 0 !important; /* pull it up into the rod loop */
+  }
+
+  /* 2) Nudge the rod down a hair so the loop sits snug */
+  .tshirts-container::before {
+    top: 40px !important;   /* was 30px—bump down 10px */
+  }
+
+  /* 3) Ensure container gives enough room above + below */
+  .tshirts-container {
+    padding-top: 60px !important;   /* restore more top padding */
+    padding-bottom: 80px !important;
+  }
+}
+
+@media (max-width: 768px) {
+    .tshirts-section::before {
+        top: 100px;
+    }
+
+	   .tshirts-section {
+        padding: 0px 20px;
+    }
+}
+
+/* 1) Desktop: show 11-item mosaic, hide mobile grid */
+.social-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 200px);
+  gap: 10px;
+}
+.social-grid-mobile {
+  display: none;
+}
+
+/* common item styling */
+.social-grid-desktop .social-item,
+.social-grid-mobile .social-mobile-item {
+  overflow: hidden;
+  border-radius: 8px;
+}
+.social-grid-desktop .social-item img,
+.social-grid-mobile .social-mobile-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------------------
+   Social Mosaic — Mobile as one-per-view carousel
+------------------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .social-section {
+    display: none !important;
+  }
+}
+/* ---------------------------- */
+/* FOOTER — mobile adjustments */
+/* ---------------------------- */
+@media (max-width: 768px) {
+  /* 1) Reduce overall padding & keep same background */
+  .misty-footer {
+    padding: 40px 20px !important;
+    background: #000 !important;
+  }
+
+  /* 2) Hide any decorative lines */
+  .misty-footer .footer-fire-line {
+    display: none !important;
+  }
+
+  /* 3) Stack columns vertically & center */
+  .misty-footer .footer-columns {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .misty-footer .footer-column {
+    width: 100% !important;
+    max-width: 300px;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  /* 4) Hide H4 headings */
+  .misty-footer .footer-column h4 {
+    display: none !important;
+  }
+
+  /* 5) Make every column’s list into a grid */
+  .misty-footer .footer-column ul {
+    display: grid !important;
+    /* default to two columns for center & right */
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px 16px !important;
+    justify-items: center !important;
+    padding: 0 !important;
+    list-style: none !important;
+    margin: 0 !important;
+  }
+
+  /* 6) Center all links & remove extra spacing */
+  .misty-footer .footer-column ul li {
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  /* 7) Collapse the left‐column grid down to one column */
+  .misty-footer .footer-column--left ul {
+    grid-template-columns: 1fr !important;
+  }
+
+  .misty-footer .footer-column--left ul {
+    display: inline-block !important;  /* shrink‐wrap the list */
+    margin: 0 auto !important;         /* center it */
+    padding: 0 !important;
+  }
+}
+
+
+
+
+/* -----------------------------------------------------------------------------
+   Full-Width, Centered Banner Carousel
+----------------------------------------------------------------------------- */
+
+/* 1) Carousel SECTION */
+.banner-section {
+  position: relative;
+  padding: 40px 0;             /* vertical breathing room */
+  background: #000;            /* optional page background */
+}
+
+/* 2) WRAPPER: make it full-width + scrolling + snap */
+.banner-carousel-wrapper {
+  width: 100%;                 /* full browser width */
+  overflow-x: auto;            /* enable horizontal scrolling */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3) CONTAINER: flex + peek on both sides */
+.banner-container {
+  display: flex;
+  gap: 20px;                   /* space between slides */
+  padding: 0 20px;             /* peek on left & right */
+  transition: transform 0.6s ease;
+  will-change: transform;
+}
+
+/* 4) ITEM: snap-center + size + outline */
+.banner-item {
+  /* CHANGE SLIDE WIDTH % HERE: how much of viewport each slide takes */
+  flex: 0 0 80%;
+  height: 500px;               /* <-- BANNER HEIGHT: tweak as needed */
+  scroll-snap-align: center;
+
+  border: 2px solid rgba(200,200,200,0.5);
+  box-shadow: 0 0 15px rgba(200,200,200,0.6);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 5) IMAGE: fill the item  */
+.banner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 6) DOTS (desktop only) */
+.banner-indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+.banner-indicators .indicator {
+  width: 12px; height: 12px;
+  background: rgba(255,183,0,0.6);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.banner-indicators .indicator.active,
+.banner-indicators .indicator:hover {
+  background: #ffb700;
+}
+
+/* 7) ARROWS (desktop only) */
+.banner-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px; height: 42px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.3s;
+}
+.banner-btn.prev { left: 24px; }
+.banner-btn.next { right: 24px; }
+.banner-btn img { width: 22px; height: 22px; }
+.banner-btn:hover { background: rgba(0,0,0,0.8); }
+
+/* 8) MOBILE: swipe only, no arrows/dots */
+@media (max-width: 768px) {
+  .banner-carousel-wrapper {
+    scroll-snap-type: x mandatory;
+  }
+  .banner-container {
+    padding: 0;            /* no peeking on mobile */
+  }
+  .banner-item {
+    flex: 0 0 100%;        /* full-width slides */
+  }
+  .banner-btn,
+  .banner-indicators {
+    display: none !important;
+  }
+}
+
+
+/* Force the WooCommerce shop navbar to stay in flex layout */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Ensure the three navbar areas sit side-by-side */
+.nav-logo,
+.nav-links,
+.nav-cart {
+  flex: 0 0 auto;
+}
+
+/* Lay out the links in a row */
+.nav-links {
+  display: flex !important;
+  gap: 40px;
+}
+
+
+/* ------------------------------
+   Shop Archive Header & Filters
+   ------------------------------ */
+
+/* Center the whole header area */
+.shop-header {
+  text-align: center !important;
+  padding: 80px 20px 60px !important;
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+/* “Shop” title styling */
+.shop-header .shop-title {
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 4.5rem !important;
+  color: #ffb700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 20px !important;
+  text-shadow: 0 0 20px rgba(255,183,0,0.5) !important;
+}
+
+/* Description paragraph */
+.shop-header .shop-description p {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.2rem !important;
+  line-height: 1.6 !important;
+  color: #eee !important;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Filters container centering */
+.shop-filters {
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 20px !important;
+  margin-top: 40px !important;
+}
+
+/* Base style for filter buttons */
+.shop-filters .filter-btn {
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.3rem !important;
+  text-transform: uppercase !important;
+  padding: 15px 40px !important;
+  border: 2px solid #fff !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #fff !important;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease !important;
+}
+
+/* Active & hover state */
+.shop-filters .filter-btn:hover,
+.shop-filters .filter-btn.active {
+  color: #ffb700 !important;
+  border-color: #ffb700 !important;
+  box-shadow: 0 0 15px rgba(255,183,0,0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Ensure mobile responsiveness */
+@media (max-width: 768px) {
+  .shop-header .shop-title {
+    font-size: 3rem !important;
+  }
+  .shop-header .shop-description p {
+    font-size: 1rem !important;
+  }
+  .shop-filters .filter-btn {
+    font-size: 1.1rem !important;
+    padding: 12px 30px !important;
+  }
+}
+
+/* Reduce the space above the Shop header */
+.shop-page-wrapper {
+  /* originally you had padding-top: 110px; */
+  padding-top: 80px !important;  /* bring it closer under navbar */
+}
+
+/* Also reduce the bottom gap on the header */
+.shop-header {
+  /* tighten the top and bottom padding */
+  padding: 40px 20px 40px !important;
+  margin-bottom: 40px !important; /* if you had a margin, shrink it */
+}
+
+
+/* Vynúti flex layout na shop & archive-product stránkach */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Prípadne ešte vynúti viditeľnosť */
+body.woocommerce-shop .navbar,
+body.post-type-archive-product .navbar {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ak by stále niečo rušilo, zrušíme tie staré display:block */
+body.woocommerce-shop .navbar[style*="display:block"],
+body.post-type-archive-product .navbar[style*="display:block"] {
+  display: flex !important;
+}
+
+/* A zredukujeme padding/margin medzi headerom a hlavičkou Shop */
+.woocommerce-shop .page-title,
+body.post-type-archive-product .page-title {
+  margin-top: 0.5em !important;
+  padding-top: 1em !important;
+}
+
+/* 1) Remove grey background from first column in Cart Totals table */
+.cart_totals .shop_table th,
+.cart_totals .shop_table td {
+  background: transparent !important;
+}
+
+/* If only the first column was grey, target it explicitly: */
+.cart_totals .shop_table tr th:first-child,
+.cart_totals .shop_table tr td:first-child {
+  background: transparent !important;
+}
+
+/* 2) Normalize the Proceed to Checkout button */
+.cart_totals .wc-proceed-to-checkout .checkout-button,
+.cart_totals a.checkout-button {
+  /* Remove gradient/animation pseudo-element */
+  position: relative;
+  overflow: visible;
+  transition: none !important;
+}
+.cart_totals .wc-proceed-to-checkout .checkout-button::before {
+  display: none !important;
+}
+
+/* 3) Match other buttons’ look & feel */
+.cart_totals .wc-proceed-to-checkout .checkout-button {
+  background: #ffb700 !important;    /* same as your other .button .checkout-button */
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-weight: bold !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255, 183, 0, 0.3) !important;
+}
+.cart_totals .wc-proceed-to-checkout .checkout-button:hover {
+  background: #ff8c00 !important;
+  transform: translateY(0) !important; /* remove lift */
+  box-shadow: 0 8px 25px rgba(255, 183, 0, 0.6) !important;
+}
+
+/* === Cart Totals: Shipping row styling === */
+
+/* 1) Make the Shipping label and value left-aligned, transparent, with matching padding */
+.cart_totals .shipping th,
+.cart_totals .shipping td {
+  text-align: left !important;
+  background: transparent !important;
+  padding: 15px 0 !important;
+  font-family: 'Jockey One', sans-serif;
+  font-weight: bold;
+}
+
+/* 2) Inline the selected shipping method (remove bullet) */
+.cart_totals .shipping ul.woocommerce-shipping-methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cart_totals .shipping ul.woocommerce-shipping-methods li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3) Restore WooCommerce’s default toggle behavior:
+      - the form is hidden by default
+      - clicking the “Calculate shipping” button opens it
+   Only add spacing on the button here, don’t force the form open */
+.cart_totals .shipping-calculator-button {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* 4) Ensure the destination note uses your fonts & spacing */
+.cart_totals .woocommerce-shipping-destination {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* ================================
+   Force flex navbar on Cart page
+   ================================ */
+
+/* 1) Flex container on cart pages */
+body.woocommerce-cart .navbar,
+body.cart .navbar,
+body.woocommerce-page.woocommerce-cart .navbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 2) Ensure the three navbar sections stay side‐by‐side */
+body.woocommerce-cart .nav-logo,
+body.woocommerce-cart .nav-links,
+body.woocommerce-cart .nav-cart {
+  flex: 0 0 auto;
+}
+
+/* 3) Lay out links in a row */
+body.woocommerce-cart .nav-links {
+  display: flex !important;
+  gap: 40px;
+}
+
+
+/* === Checkout Page Global === */
+body.woocommerce-checkout {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+body.woocommerce-checkout h2,
+body.woocommerce-checkout .woocommerce-billing-fields__title,
+body.woocommerce-checkout .woocommerce-shipping-fields__title {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+/* === Form Inputs === */
+.woocommerce-checkout input.input-text,
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+  background: #111 !important;
+  border: 2px solid #333 !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  padding: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif !important;
+}
+.woocommerce-checkout input.input-text:focus,
+.woocommerce-checkout select:focus,
+.woocommerce-checkout textarea:focus {
+  border-color: #ffb700 !important;
+  box-shadow: 0 0 10px rgba(255,183,0,0.3) !important;
+  outline: none !important;
+}
+
+/* === Section Wrappers === */
+.woocommerce-checkout .woocommerce-billing-fields,
+.woocommerce-checkout .woocommerce-shipping-fields,
+.woocommerce-checkout .woocommerce-additional-fields {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  border: 2px solid rgba(255,183,0,0.3);
+}
+
+/* === Shipping Options === */
+.woocommerce-checkout .woocommerce-shipping-methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.woocommerce-checkout .woocommerce-shipping-methods li {
+  margin-bottom: 10px;
+}
+.woocommerce-checkout .woocommerce-shipping-methods li label {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #111;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.woocommerce-checkout input[name^="shipping_method"]:checked + label {
+  border-color: #ffb700;
+  box-shadow: 0 0 15px rgba(255,183,0,0.6);
+  background: #111;
+}
+
+/* === Order Summary Panel === */
+.woocommerce-checkout .order-summary,
+.woocommerce-checkout .woocommerce-checkout-review-order-table {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid rgba(255,183,0,0.3);
+}
+.woocommerce-checkout .order-summary h3 {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.woocommerce-checkout .woocommerce-checkout-review-order-table th,
+.woocommerce-checkout .woocommerce-checkout-review-order-table td {
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding: 15px 0;
+}
+.woocommerce-checkout .woocommerce-checkout-review-order-table tfoot th {
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* === Payment Error Box === */
+.woocommerce-checkout .woocommerce-error,
+.woocommerce-checkout .woocommerce-notice {
+  background: #330000 !important;
+  border: 2px solid #ff4444 !important;
+  color: #ffbbbb !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  margin-bottom: 20px !important;
+}
+
+/* === Place Order & Return to Cart Buttons === */
+.woocommerce-checkout #place_order,
+.woocommerce-checkout .button.alt {
+  background: #ffb700 !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 15px 40px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255,183,0,0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+.woocommerce-checkout #place_order:hover,
+.woocommerce-checkout .button.alt:hover {
+  background: #ff8c00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255,183,0,0.6) !important;
+}
+
+/* “← Return to cart” link */
+.woocommerce-checkout .return-to-shop a {
+  color: #fff !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+.woocommerce-checkout .return-to-shop a:hover {
+  color: #ffb700 !important;
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 768px) {
+  .woocommerce-checkout .woocommerce-billing-fields,
+  .woocommerce-checkout .order-summary {
+    padding: 20px;
+  }
+  .woocommerce-checkout #place_order,
+  .woocommerce-checkout .button.alt {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+
+
+/* === Checkout: Place Order button === */
+.woocommerce-checkout #place_order {
+  background: #ffb700 !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 15px 40px !important;
+  border-radius: 8px !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.1rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(255,183,0,0.3) !important;
+  transition: all 0.3s ease !important;
+}
+.woocommerce-checkout #place_order:hover {
+  background: #ff8c00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255,183,0,0.6) !important;
+}
+
+/* === Checkout: Order Summary Sidebar === */
+.woocommerce-checkout .woocommerce-checkout-review-order {
+  background: #111 !important;
+  border: 2px solid rgba(255,183,0,0.3) !important;
+  border-radius: 12px !important;
+  padding: 30px !important;
+  margin-top: 40px !important;
+}
+
+/* Header (“Your order”) */
+.woocommerce-checkout .woocommerce-order-review-heading {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+/* Table cells */
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+  border-bottom: 1px solid #333 !important;
+  padding: 12px 0 !important;
+  color: #fff !important;
+}
+.woocommerce-checkout-review-order-table tfoot th {
+  color: #ffb700 !important;
+  font-family: 'Jockey One', sans-serif !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 1px !important;
+}
+
+/* Coupon section */
+.woocommerce-checkout .checkout_coupon {
+  background: #111;
+  border: 2px solid rgba(255,183,0,0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+/* “Add a coupon” toggle link */
+.woocommerce-checkout .showcoupon {
+  color: #ffb700 !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+}
+.woocommerce-checkout .showcoupon:hover {
+  text-decoration: underline !important;
+}
+
+/* Ensure the sidebar stays full-width on mobile */
+@media (max-width: 768px) {
+  .woocommerce-checkout .woocommerce-checkout-review-order {
+    margin-top: 20px;
+    padding: 20px !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  /* Shrink the hero so it fits nicely on a phone */
+  .hero {
+    position: relative;
+    padding: 60px 15px 30px;  /* less top/bottom padding */
+    min-height: 50vh;         /* about half the screen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Full-cover background, no blur cutoffs */
+  .hero-background {
+    background-size: cover !important;
+    background-position: center center !important;
+    opacity: 0.5 !important;
+    filter: none !important;    /* remove blur so you see it clearly */
+  }
+
+  /* Semi-transparent dark overlay */
+  .hero-overlay {
+    background: rgba(0,0,0,0.4) !important;
+  }
+
+  /* Center the logo/text, constrain width */
+  .hero-content {
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  /* Logo graphic sizing */
+  .hero-title-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto 20px;
+    filter: drop-shadow(0 0 20px rgba(255,183,0,0.6));
+  }
+
+  /* If no image, fallback text styling */
+  .hero-title-text {
+    font-size: 2rem !important;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+
+  /* Subtitle smaller & legible */
+  .hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8) !important;
+    margin: 0;
+  }
+}
+
+
+  .banner-section-title {
+    display: none !important;
+  }
+
+@media (max-width: 768px) {
+  /* 1) Hide the “NOVINKY” heading */
+
+
+  /* 2) Make the banner swipeable, full-width, shorter height */
+  .banner-carousel {
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    height: 180px;      /* adjust as desired */
+    padding: 0 !important;
+  }
+  .banner-container {
+    display: flex !important;
+    transform: none !important;  /* disable JS translate on mobile */
+  }
+  .banner-item {
+    flex: 0 0 100% !important;   /* each slide fills the viewport */
+    scroll-snap-align: start;
+    margin-right: 8px !important;/* small gap between slides */
+  }
+  .banner-item:last-child {
+    margin-right: 0 !important;
+  }
+
+  /* 3) Remove arrows & dots on mobile */
+  .banner-btn,
+  .banner-indicators {
+    display: none !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+
+  /* 2) Albums continuous scroll + touch-swipe */
+  .albums-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    /* Continuous loop animation */
+    animation: scrollAlbumsMobile 25s linear infinite;
+  }
+  .albums-grid::-webkit-scrollbar { display: none; }
+  .album-item {
+    flex: 0 0 auto !important;
+    width: 120px !important;
+    margin-right: 16px !important;
+    scroll-snap-align: center;
+  }
+  /* Duplicate gap on last so loop is smooth */
+  .album-item:last-child {
+    margin-right: 32px !important;
+  }
+
+  /* 3) Pause animation on hover/touch */
+  .albums-grid:hover,
+  .albums-grid:active {
+    animation-play-state: paused !important;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    /* override the desktop height */
+    height: 35vh !important;
+    /* tighten your padding */
+    padding: 50px 15px 20px !important;
+    /* remove any min-height so it doesn’t fight our new value */
+    min-height: 0 !important;
+  }
+
+  .hero-background {
+    /* ensure the background fills the new hero box */
+    height: 100% !important;
+  }
+
+  .hero-title-image {
+    /* shrink the logo into that 35vh box */
+    max-height: 20vh !important;
+    width: auto !important;
+    margin-bottom: 15px !important;
+  }
+}
+
+
+.albums-bottom-title {
+    margin-bottom: 0px !important;
+  }
+
+
+
+
+@media only screen and (max-width: 768px) {
+  /* 1) Make the tee fill more of the width */
+  .tshirt-hanging img {
+    max-width: 80% !important;    /* up from 70% so it’s nice and big */
+    width: auto !important;
+    margin: -25px auto 0 !important; /* pull it up into the rod loop */
+  }
+
+  /* 2) Nudge the rod down a hair so the loop sits snug */
+  .tshirts-container::before {
+    top: 40px !important;   /* was 30px—bump down 10px */
+  }
+
+  /* 3) Ensure container gives enough room above + below */
+  .tshirts-container {
+    padding-top: 60px !important;   /* restore more top padding */
+    padding-bottom: 80px !important;
+  }
+}
+
+@media (max-width: 768px) {
+    .tshirts-section::before {
+        top: 100px;
+    }
+
+	   .tshirts-section {
+        padding: 0px 20px;
+    }
+}
+
+/* 1) Desktop: show 11-item mosaic, hide mobile grid */
+.social-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 200px);
+  gap: 10px;
+}
+.social-grid-mobile {
+  display: none;
+}
+
+/* common item styling */
+.social-grid-desktop .social-item,
+.social-grid-mobile .social-mobile-item {
+  overflow: hidden;
+  border-radius: 8px;
+}
+.social-grid-desktop .social-item img,
+.social-grid-mobile .social-mobile-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 2) Mobile: hide desktop grid, show 5-item 2×3 grid */
+@media (max-width: 768px) {
+  .social-grid-desktop {
+    display: none;
+  }
+  .social-grid-mobile {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* three rows of auto height to fit 5 items */
+    grid-auto-rows: 150px;
+    gap: 8px;
+    padding: 10px 0;
+  }
+}
+
+/* ---------------------------- */
+/* FOOTER — mobile adjustments */
+/* ---------------------------- */
+@media (max-width: 768px) {
+  /* 1) Reduce overall padding & keep same background */
+  .misty-footer {
+    padding: 40px 20px !important;
+    background: #000 !important;
+  }
+
+  /* 2) Hide the decorative “fire line” or any pseudo-elements */
+  .misty-footer .footer-fire-line {
+    display: none !important;
+  }
+
+  /* 3) Stack all columns vertically, center them, remove gaps */
+  .misty-footer .footer-columns {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .misty-footer .footer-column {
+    width: 100% !important;
+    max-width: 300px;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  /* 4) Center headings & links in each column */
+  .misty-footer .footer-column--left,
+  .misty-footer .footer-column--center,
+  .misty-footer .footer-column--right {
+    text-align: center !important;
+  }
+
+  /* 5) Tighter typography */
+  .misty-footer .footer-column h4 {
+    font-size: 1.2rem !important;
+    margin-bottom: 8px !important;
+  }
+  .misty-footer .footer-column ul li {
+    margin-bottom: 6px !important;
+  }
+  .misty-footer .footer-column ul li a {
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+  }
+
+  /* 6) Copyright text smaller & zero bottom margin */
+  .misty-footer .footer-column--center .footer-copyright-text {
+    font-size: 0.8rem !important;
+    margin-bottom: 8px !important;
+  }
+  .misty-footer .footer-column--center p:last-of-type {
+    margin-bottom: 0 !important;
+  }
+
+	  /* Hide all h4 titles */
+  .misty-footer .footer-column h4 {
+    display: none !important;
+  }
+
+  /* Turn each list into a two-column grid */
+  .misty-footer .footer-column ul {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px 16px !important;
+    justify-items: center !important;
+    padding: 0 !important;
+    list-style: none !important;
+    margin: 0 !important;
+  }
+
+  /* Center all links and remove indentation */
+  .misty-footer .footer-column ul li {
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+
+}
+
+/* Social Section Container */
+/* ----------------------------------------- */
+.social-section {
+  /* Minimal vertical padding, adjust as desired */
+  padding: 50px 10px;
+  background: #000;
+  text-align: center;
+  position: relative;
+  /* If you want the content centered with a max width: */
+  /* You can wrap .social-grid-desktop in an extra container, or: */
+  /* max-width: 1200px; margin: 0 auto; */
+}
+
+/* ----------------------------------------- */
+/* Desktop Grid Mosaic */
+/* ----------------------------------------- */
+.social-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  /* Ensure this is set to 3 rows */
+  grid-template-rows: repeat(3, 180px);
+  grid-auto-rows: minmax(0, 180px);
+  gap: 15px;
+}
+
+.social-grid-desktop .social-item {
+  display: block; /* Ensure block context */
+  overflow: hidden;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  /* outline: 3px solid limegreen !important; */ /* DIAGNOSTIC STYLE REMOVED */
+  position: relative; /* Good for containing children */
+  border-radius: 12px; /* adjust as needed */
+}
+
+/* NEW: Ensure the anchor tag (if present) fills the social-item and also clips */
+.social-grid-desktop .social-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Add overflow hidden here too for safety */
+}
+
+/* Hover effect */
+.social-grid-desktop .social-item:hover {
+  transform: scale(1.02);
+  z-index: 10;
+}
+
+/* Image fills the item and is clipped via object-fit */
+.social-grid-desktop .social-item img.social-icon { /* Made selector more specific */
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ----------------------------------------- */
+/* Positioning 11 Items in the Grid */
+/* (Adjust these spans if you tweak row-height or columns) */
+/* ----------------------------------------- */
+
+/* Item 1: spans columns 1-2 (1/3 means start at 1, end at 3), row 1 */
+.social-grid-desktop .social-item:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+}
+
+/* Item 2: column 3, spans rows 1-2 */
+.social-grid-desktop .social-item:nth-child(2) {
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+}
+
+/* Item 3: spans columns 4-5, row 1 */
+.social-grid-desktop .social-item:nth-child(3) {
+  grid-column: 4 / 6;
+  grid-row: 1 / 2;
+}
+
+/* Item 4: column 6, row 1 */
+.social-grid-desktop .social-item:nth-child(4) {
+  grid-column: 6 / 7;
+  grid-row: 1 / 2;
+}
+
+/* Item 5: column 1, spans rows 2-3 */
+.social-grid-desktop .social-item:nth-child(5) {
+  grid-column: 1 / 2;
+  grid-row: 2 / 4;
+}
+
+/* Item 6: column 2, row 2 */
+.social-grid-desktop .social-item:nth-child(6) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+/* Item 7: column 4, spans rows 2-3 */
+.social-grid-desktop .social-item:nth-child(7) {
+  grid-column: 4 / 5;
+  grid-row: 2 / 4;
+}
+
+/* Item 8: spans columns 5-6, row 2 */
+.social-grid-desktop .social-item:nth-child(8) {
+  grid-column: 5 / 7;
+  grid-row: 2 / 3;
+}
+
+/* Item 9: spans columns 2-3, row 3 */
+.social-grid-desktop .social-item:nth-child(9) {
+  grid-column: 2 / 4;
+  grid-row: 3 / 4;
+}
+
+/* Item 10: column 5, spans rows 3-4 */
+.social-grid-desktop .social-item:nth-child(10) {
+  grid-column: 5 / 6;
+  /* Ensure this is set to row 3 / 4 */
+  grid-row: 3 / 4;
+}
+
+/* Item 11: column 6, row 3 */
+.social-grid-desktop .social-item:nth-child(11) {
+  grid-column: 6 / 7;
+  grid-row: 3 / 4;
+}
+
+/* If a 12th item is added later, you can uncomment and adjust:
+.social-grid-desktop .social-item:nth-child(12) {
+  grid-column: 1 / 3;
+  grid-row: 4 / 5;
+}
+*/
+
+/* ----------------------------------------- */
+/* Mobile Carousel */
+/* ----------------------------------------- */
+.social-carousel-mobile {
+  display: none; /* hidden on desktop */
+}
+
+.social-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 40px auto;
+}
+
+.social-carousel-container {
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.social-carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.social-carousel-item {
+  flex: 0 0 100%;
+  aspect-ratio: 1;  /* square items */
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.social-carousel-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.social-carousel-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.social-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ff6b35;
+  color: #ff6b35;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-btn:hover {
+  background: #ff6b35;
+  color: #111;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.social-btn.prev {
+  left: -25px;
+}
+
+.social-btn.next {
+  right: -25px;
+}
+
+/* Hide buttons on small screens */
+@media (max-width: 768px) {
+  .social-btn {
+    display: none;
+  }
+  .social-carousel-container {
+    touch-action: pan-x;
+  }
+}
+
+/* ----------------------------------------- */
+/* Mobile: Switch layout */
+/* ----------------------------------------- */
+@media (max-width: 768px) {
+  /* Reduce padding vertically/horizontally on mobile if desired */
+  .social-section {
+    padding: 30px 10px;
+  }
+  /* Hide desktop grid */
+  .social-grid-desktop {
+    display: none;
+  }
+  /* Show mobile carousel */
+  .social-carousel-mobile {
+    display: block;
+  }
+}
+
+/* ----------------------------------------- */
+/* Optional: Social Handle/Text */
+/* ----------------------------------------- */
+.social-handle {
+  font-size: 2rem;
+  color: #ff6b35;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  z-index: 5;
+  background: linear-gradient(45deg, #ff6b35, #f7931e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .social-handle {
+    font-size: 1.5rem;
+    margin-top: 30px;
+  }
+}
+
+/* Shrink footer background so the full “flames” art is visible */
+.misty-footer {
+  /* give more breathing room */
+  padding: 120px 50px 120px !important;
+
+  /* show the entire flames image */
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center top !important;
+}
+
+
+/* ------------------------------------------------------------------------
+   T-shirts Carousel: Hanging / Full-Width, 5-Across (Rod Above Tees)
+------------------------------------------------------------------------ */
+.tshirts-section {
+  position: relative;
+  background: #fff;
+  padding: 120px 0 80px;       /* more top padding to fit rod + hangers */
+  overflow: visible;
+}
+
+/* 1) Draw the rod *behind* the tees */
+.tshirts-section::before {
+  content: "";
+  position: absolute;
+  top: 125px;                   /* vertical position of rod */
+  left: 0;
+  width: 100%;
+  height: 8px;                 /* rod thickness */
+  background: #000;
+  z-index: 1;                  /* behind the tees */
+  pointer-events: none;
+}
+
+/* 2) Carousel wrapper */
+.tshirts-carousel-wrapper {
+  position: relative;
+  z-index: 2;                  /* tees above the rod */
+  overflow-x: hidden;          /* no white gutters */
+  width: 100%;
+}
+
+/* 3) Scroll track */
+.tshirts-container {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;   /* first tee aligns */
+  scroll-behavior: smooth;
+  gap: 4px;                    /* tight gutters */
+  padding: 0 12px;
+  margin-top: 0;               /* no extra margin */
+  scrollbar-width: none;
+}
+.tshirts-container::-webkit-scrollbar { display: none; }
+
+/* 4) Each tee = 1/5 of viewport minus gaps */
+.tshirt-item {
+  flex: 0 0 calc((100% - 4*8px)/5);
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* 5) Image wrapper: no negative margins */
+.tshirt-image-wrapper {
+  margin-top: -10px;           /* just enough to overlap rod slightly */
+  z-index: 3;
+  width: 120%;            /* above the rod */
+}
+.tshirt-image-wrapper img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  display: block;
+}
+
+/* 6) Prev/Next arrows */
+.tshirt-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px; height: 50px;
+  background: rgba(0,0,0,0.7);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.tshirt-btn.prev { left: 16px; }
+.tshirt-btn.next { right: 16px; }
+.tshirt-btn img { width: 24px; height: 24px; filter: brightness(0) invert(1); }
+.tshirt-btn:hover {
+  background: rgba(0,0,0,0.9);
+  border-color: #ffb700;
+  transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 768px) {
+  /* hide arrows */
+  .tshirt-btn {
+    display: none;
+  }
+
+  /* scrollable strip */
+  .tshirts-container {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    padding: 20px 10px 40px;    /* ↑ add bottom padding so tees don’t get cut off */
+    margin-top: 0;              /* remove extra top margin */
+  }
+  /* hide scrollbar */
+  .tshirts-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tshirt-item {
+    flex: 0 0 70%;
+    scroll-snap-align: center;
+  }
+
+  .tshirt-image-wrapper {
+    margin-top: -70px;           /* pull hanger closer to rod */
+    max-height: 250px;          /* limit image height */
+  }
+
+  /* rod down under fixed header, above tees */
+  .tshirts-section::before {
+    top: 120px;                 /* whatever you like */
+  }
+}
+
+/* 8) Tablet: show 4 across */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tshirt-item { flex: 0 0 calc((100% - 3*8px)/4); }
+}
+
+/* ==========================================================================
+   Single Product Page (custom-single-product)
+   ========================================================================== */
+
+.custom-single-product {
+  background: #000;
+  color: #fff;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.product-main {
+  display: flex;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  align-items: flex-start;
+}
+
+.product-image-section {
+  flex: 1;
+  max-width: 500px;
+}
+
+.main-product-image {
+  width: 100%;
+  margin-bottom: 20px;
+  height: 600px;
+}
+
+.main-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 2px solid rgba(255,183,0,0.3);
+}
+
+.product-gallery {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.product-gallery img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #333;
+  cursor: pointer;
+  transition: border .3s ease;
+}
+.product-gallery img:hover {
+  border-color: #ffb700;
+}
+
+.product-details {
+  flex: 1;
+  max-width: 450px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-info-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px;
+}
+
+.product-series-title {
+  font-family: 'Jockey One',sans-serif;
+  color: #ffb700;
+  font-size: 4rem;
+  font-weight: bold;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.product-handle {
+  font-size: 1.2rem;
+  margin: 0 0 30px;
+  color: #fff;
+}
+
+.product-description-text {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.price-section {
+  margin-top: auto;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.main-price {
+  color: #ffb700;
+  font-family: 'Jockey One',sans-serif;
+  font-size: 6rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(255,183,0,0.5);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.stock-status {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+}
+
+.product-actions {
+  width: 100%;
+  max-width: 390px;
+  margin-top: 30px;
+}
+
+.size-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.size-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid #fff;
+  background: transparent;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.size-btn:hover,
+.size-btn.selected {
+  background: #ffb700;
+  color: #000;
+  border-color: #ffb700;
+}
+.size-btn.disabled {
+  border-color: #555;
+  color: #555;
+  cursor: not-allowed;
+  opacity: .5;
+}
+.size-btn.disabled:hover {
+  background: transparent;
+  border-color: #555;
+}
+
+.buy-button {
+  background: #ffb700;
+  color: #000;
+  border: none;
+  padding: 20px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .3s ease;
+  width: 100%;
+  max-width: 390px;
+  height: 70px;
+}
+.buy-button:hover {
+  background: #ff8c00;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,183,0,0.4);
+}
+
+/* Responsive */
+@media (max-width:1024px) {
+  .product-main {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .product-series-title { font-size: 3rem; }
+  .main-price           { font-size: 3rem; }
+}
+
+@media (max-width:768px) {
+  .custom-single-product { padding-top:60px; }
+  .product-main {
+    padding: 0 15px;
+    gap: 30px;
+  }
+  .product-series-title { font-size:2.5rem; }
+  .main-price           { font-size:2.5rem; }
+  .size-selector        { gap:10px; }
+  .size-btn             { font-size:1rem; padding:10px; }
+  .buy-button           { max-width:100%; }
+}
+
+.product-gallery {
+  margin-bottom: 30px;
+}
+
+
+
+.pagination-arrow {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.pagination-arrow img {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+.quantity-selector {
+  margin-bottom: 1rem; /* space under the qty field */
+}
+
+.buy-button {
+  margin-top: 1rem;    /* space above the button */
+}
+
+.product-description-text {
+  /* remove any fixed height if you had one */
+  max-height: none;
+  overflow: visible;
+  margin-bottom: 2.5rem; /* extra breathing room below description */
+}
+
+/* — More space under the Buy button on mobile — */
+.buy-button {
+  margin-bottom: 3rem;
+}
+
+/* — Ensure the next white section is pushed down — */
+.featured-section,
+.social-mosaic-section {
+  padding-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .buy-button {
+    margin-bottom: 4rem;
+  }
+  .featured-section,
+  .social-mosaic-section {
+    padding-top: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-description-text {
+    margin-bottom: 1.5rem; /* instead of 2.5rem */
+  }
+  .buy-button {
+    margin-bottom: 3rem;   /* or even less if you like */
+  }
+}
+/* 1) Center & constrain the cart page */
+.cart-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* 2) Use WooCommerce’s default table styles */
+.woocommerce-cart-form table.shop_table.cart {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2em;
+}
+
+/* 3) Gold border around the entire cart form */
+.woocommerce-cart-form {
+  border: 2px solid #ffb700;
+  border-radius: 8px;
+  padding: 1.5em;
+  background: #111;
+}
+
+/* 4) Gold‐accent header row */
+.woocommerce-cart-form thead th {
+  background: #222;
+  color: #fff;
+  font-family: 'Jockey One', sans-serif;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ffb700;
+}
+
+/* 5) Table cell padding */
+.woocommerce-cart-form td,
+.woocommerce-cart-form th {
+  padding: 12px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255,183,0,0.3);
+}
+
+/* 6) Remove extra Woo buttons style so default appears */
+.woocommerce-cart-form .actions .button {
+  background: #ffb700 !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  font-family: 'Jockey One', sans-serif;
+  cursor: pointer !important;
+}
+.woocommerce-cart-form .actions .button:hover {
+  background: #ff8c00 !important;
+}
+
+/* 7) Cart Totals area */
+.cart_totals {
+  margin-top: 2em;
+  border: 2px solid #ffb700;
+  border-radius: 8px;
+  padding: 1.5em;
+  background: #111;
+}
+.cart_totals h2 {
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+  text-transform: uppercase;
+  margin-bottom: 1em;
+}
+.cart_totals table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cart_totals th,
+.cart_totals td {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,183,0,0.3);
+}
+.cart_totals .order-total th,
+.cart_totals .order-total td {
+  border-top: 2px solid #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  color: #ffb700;
+}
+
+/* 8) Proceed to Checkout */
+.cart_totals .wc-proceed-to-checkout .checkout-button {
+  background: #ffb700 !important;
+  color: #000 !important;
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  font-family: 'Jockey One',sans-serif !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  margin-top: 1em;
+}
+.cart_totals .wc-proceed-to-checkout .checkout-button:hover {
+  background: #ff8c00 !important;
+}
+
+/* 9) Mobile adjustments */
+@media (max-width: 768px) {
+  .woocommerce-cart-form table.shop_table.cart thead {
+    display: none;
+  }
+  .woocommerce-cart-form table.shop_table.cart td {
+    display: block;
+    width: 100%;
+    padding: 8px 0 !important;
+  }
+  .woocommerce-cart-form .actions,
+  .cart_totals {
+    padding: 1em;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   MOBILE: Shrink product thumbnails in the cart
+──────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .woocommerce-cart-form table.shop_table.cart td.product-thumbnail img {
+    width: 60px !important;
+    height: auto !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   DESKTOP: Make the remove “×” gold
+──────────────────────────────────────────────────────────────────────────── */
+.woocommerce-cart-form .product-remove a {
+  color: #ffb700 !important;
+  font-size: 1.2rem;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   CART HEADER: Remove dark-grey background on heading row
+──────────────────────────────────────────────────────────────────────────── */
+.woocommerce-cart-form table.shop_table.cart thead th {
+  background: transparent !important;
+  color: #fff !important;
+  border-bottom: 1px solid #ffb700 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   COUPON FIELD: Gold-accent styling
+──────────────────────────────────────────────────────────────────────────── */
+.woocommerce-cart-form .coupon {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.woocommerce-cart-form .coupon input.input-text {
+  background: #111;
+  border: 2px solid rgba(255,183,0,0.3);
+  border-radius: 4px;
+  color: #fff;
+  padding: 8px 12px;
+  width: 180px;
+  box-sizing: border-box;
+}
+
+.woocommerce-cart-form .coupon .button {
+  background: #ffb700;
+  color: #000;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Jockey One', sans-serif;
+}
+.woocommerce-cart-form .coupon .button:hover {
+  background: #ff8c00;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   UPDATE CART: keep it on the same line, gold button
+──────────────────────────────────────────────────────────────────────────── */
+.woocommerce-cart-form .actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.woocommerce-cart-form .actions .button[name="update_cart"] {
+  background: #ffb700 !important;
+  color: #000 !important;
+  padding: 10px 20px !important;
+  border-radius: 4px !important;
+}
+.woocommerce-cart-form .actions .button[name="update_cart"]:hover {
+  background: #ff8c00 !important;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   CART TOTALS SHIPPING LINE: replace “Calculate shipping” button with text
+──────────────────────────────────────────────────────────────────────────── */
+.cart_totals .shipping .shipping-calculator-button {
+  display: none;
+}
+.cart_totals .shipping .woocommerce-shipping-destination {
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* And force the “Shipping options will be calculated during checkout.” */
+.cart_totals .shipping td {
+  font-style: italic;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Keep the product-name column left-aligned but remove extra indent
+──────────────────────────────────────────────────────────────────────────── */
+.woocommerce-cart-form table.shop_table.cart td.product-name {
+  padding-left: 10px !important;
+  text-align: left !important;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Block Cart “Proceed to Checkout” button
+──────────────────────────────────────────────────────────────────────────── */
+.wc-block-cart__submit-button.contained {
+  background-color: #ffb700 !important;   /* gold */
+  color:            #000     !important;   /* black text */
+  border:           none    !important;
+  padding:          12px 30px !important;
+  border-radius:    6px     !important;
+  font-family:      'Jockey One', sans-serif !important;
+  font-weight:      bold    !important;
+  text-transform:   uppercase !important;
+  letter-spacing:   1px     !important;
+  box-shadow:       0 4px 15px rgba(255,183,0,0.3) !important;
+  transition:       background-color 0.3s ease !important;
+  display:          inline-block !important;
+}
+
+/* Hover state */
+.wc-block-cart__submit-button.contained:hover {
+  background-color: #ff8c00 !important;   /* darker on hover */
+}
+
+
+/* Hide the “Free” value in the shipping row */
+.wc-block-components-totals-shipping
+  .wc-block-components-totals-item__value {
+  display: none !important;
+}
+
+/* Inject our own descriptive text */
+.wc-block-components-totals-shipping
+  .wc-block-components-totals-item__description::before {
+  content: "Shipping will be calculated during checkout";
+  display: block;
+  font-style: italic;
+  color: #ccc;
+  margin-top: 4px;
+}
+
+
+
+.wp-block-woocommerce-cart-order-summary-shipping-block
+  .wc-block-components-totals-item__label {
+  display: none !important;
+}
+
+/* shrink/tweak the cart wrapper */
+.nav-cart {
+  height: 60px !important;           /* adjust container height */
+  display: flex !important;
+  align-items: center !important;    /* vertically center its contents */
+  padding: 0 12px !important;
+}
+
+/* make the link itself a positioned container */
+.nav-cart a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;     /* so we can position the badge */
+  height: 100%;
+}
+
+/* enlarge the cart icon to ~32px */
+.nav-cart a img,
+.nav-cart a svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* style & position the count badge */
+.nav-cart a .badge,
+.nav-cart a .cart-count,
+.nav-cart a .count {
+  position: absolute !important;
+  top: 4px !important;
+  right: 4px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  background: #ffb700 !important;
+  color: #000 !important;
+  border-radius: 50% !important;
+  padding: 0 4px !important;
+}
+
+
+/* ====================================================================
+   NAVBAR – Desktop & Mobile
+   ==================================================================== */
+
+/* 1) Base navbar (all sizes) */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+/* 2) Logo */
+.nav-logo img {
+  width: 45px;
+  height: 45px;
+  transition: transform .3s ease;
+}
+.nav-logo:hover img {
+  transform: scale(1.1);
+}
+
+/* 3) Desktop links */
+@media (min-width: 769px) {
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+    flex-direction: row;
+    top: auto; right: auto;
+    padding: 0; overflow: visible;
+    z-index: auto;
+  }
+  .nav-links a {
+    font-family: 'Jockey One', sans-serif;
+    font-size: 36px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color .3s ease;
+  }
+  .nav-links a:hover {
+    color: #ffb700;
+  }
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+}
+
+/* 4) Cart icon */
+.nav-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.nav-cart img {
+  width: 35px; height: 35px;
+  transition: filter .3s ease;
+}
+.nav-cart:hover img {
+  filter: brightness(1.3);
+}
+.cart-count {
+  position: absolute;
+  top: -6px; right: -6px;
+  background: #ffb700;
+  color: #000;
+  font-size: .75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* 5) Hamburger toggle */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000 !important;
+  padding: 6px 8px !important;
+  border: none !important;
+  border-radius: 4px;
+  z-index: 1100;
+  cursor: pointer;
+}
+.mobile-menu-toggle span {
+  width: 20px !important;
+  height: 2px !important;
+  background: #fff !important;
+  margin: 3px 0 !important;
+  transition: all .3s ease;
+}
+
+/* ====================================================================
+   MOBILE (≤768px) – slide-in overlay
+   ==================================================================== */
+@media (max-width: 768px) {
+  /* hide desktop links, show hamburger */
+  .nav-links {
+    display: none !important;
+  }
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
+  /* the slide-in full-screen menu */
+  .nav-links {
+    position: fixed;
+    top: 90px;                        /* same as .navbar height */
+    right: -100%;
+    width: 100vw;
+    height: calc(100vh - 90px);
+    background: #000;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 0;
+    overflow-y: auto;
+    transition: right .3s ease;
+    z-index: 900;
+  }
+
+  /* toggle into view */
+  body.nav-open .nav-links {
+    right: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  /* Collapse the forced height so description & price sit tight */
+  .product-info-top {
+    min-height: auto !important;
+  }
+}
+
+.buy-button:disabled,
+.buy-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
