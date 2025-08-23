@@ -80,6 +80,8 @@ get_header( 'shop' );
             ?>
           </div>
 
+          <button class="desc-toggle" id="mh-desc-toggle" hidden>Zobraziť viac</button>
+
           <div class="price-section">
             <div class="main-price"><?php echo $product->get_price_html(); ?></div>
             <div class="stock-status" id="mh-stock-status">
@@ -211,4 +213,22 @@ jQuery(function($){
   // 3) On page load, ensure it's definitely off
   toggleBuy();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  var box = document.querySelector('.product-description-text');
+  var btn = document.getElementById('mh-desc-toggle');
+  if (!box || !btn) return;
+
+  // ukáž tlačidlo len keď je text dlhší než orez
+  var needsToggle = box.scrollHeight > box.clientHeight + 16; // buffer
+  if (needsToggle) {
+    btn.hidden = false;
+  }
+
+  btn.addEventListener('click', function(){
+    var expanded = box.classList.toggle('is-expanded');
+    btn.textContent = expanded ? 'Menej' : 'Zobraziť viac';
+  });
+});
+
 </script>

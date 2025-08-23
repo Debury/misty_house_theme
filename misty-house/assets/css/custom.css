@@ -108,7 +108,6 @@
    Albums Section
 ------------------------------------------------------------------------ */
 .albums-section {
-  background: #111;
   padding: 80px 0;
   text-align: center;
 }
@@ -3599,3 +3598,96 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
   .album-image-wrapper { width: 98px !important; height: 98px !important; }
 }
 
+/* Collapsed by default (mobile aj desktop) */
+.product-description-text {
+  position: relative;
+  overflow: hidden;
+  max-height: 12rem;                 /* základ: ~8–10 riadkov */
+  transition: max-height .25s ease;
+}
+
+/* jemný fade naspodu pri skrátení */
+.product-description-text::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+  pointer-events: none;
+}
+
+/* rozbalený stav */
+.product-description-text.is-expanded {
+  max-height: none;
+}
+.product-description-text.is-expanded::after {
+  display: none;
+}
+
+/* tlačidlo */
+.desc-toggle {
+  margin-top: 12px;
+  font-weight: 700;
+  border: 1px solid #ffb700;
+  background: transparent;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #ffb700;
+  cursor: pointer;
+}
+
+/* na širších obrazovkách môžeš ukázať viac textu pred „viac“ */
+@media (min-width: 992px) {
+  .product-description-text {
+    max-height: 14rem;               /* desktop – viac riadkov pred rozbalením */
+  }
+}
+
+
+/* Base quantity box */
+#mh-quantity {
+  width: 70px;
+  padding: 10px;
+  border: 2px solid #ffb700;
+  border-radius: 8px;
+  background: #000;              /* ladí s tvojim black theme */
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  appearance: textfield;         /* schová default šípky na väčšine prehliadačov */
+}
+
+/* Hover/Focus states */
+#mh-quantity:focus {
+  outline: none;
+  border-color: #ffa500;
+  box-shadow: 0 0 8px rgba(255,183,0,0.6);
+  background: #111;
+}
+
+/* Odstránenie spin buttonov v Chrome/Safari */
+#mh-quantity::-webkit-inner-spin-button,
+#mh-quantity::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Odstránenie šípok vo Firefoxe */
+#mh-quantity[type=number] {
+  -moz-appearance: textfield;
+}
+
+label[for="mh-quantity"] {
+  font-weight: 700;        /* bold */
+  color: #ffb700;          /* aby ladilo s témou */
+  margin-right: 10px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.albums-section {
+  background-color: #000; /* same as banners */
+  color: #fff;            /* optional, so text is readable */
+}
