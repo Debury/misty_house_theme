@@ -8,109 +8,133 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Unique cache key
-$cache_key = 'misty_house_footer_html';
+// bump cache key so changes show immediately
+$cache_key = 'misty_house_footer_html_v13';
 
-// Try to get cached footer
+// try cache
 $footer_html = get_transient( $cache_key );
 
 if ( false === $footer_html ) {
-    ob_start();
+	ob_start();
 
-    // Get the customizable footer background image URL (or fallback)
-    $footer_bg_url = get_theme_mod(
-        'misty_house_footer_bg_image',
-        get_template_directory_uri() . '/assets/images/Group.png'
-    );
-    ?>
-    <footer
-      class="misty-footer"
-      data-bg="<?php echo esc_url( $footer_bg_url ); ?>"
-      style="background-color: #000;"
-    >
-      <div class="footer-content">
-        <div class="footer-columns">
+	// footer bg from Customizer (fallback to theme asset)
+	$footer_bg_url = get_theme_mod(
+		'misty_house_footer_bg_image',
+		get_template_directory_uri() . '/assets/images/Group.png'
+	);
 
-          <!-- Left column -->
-          <div class="footer-column footer-column--left">
-            <h4><?php echo esc_html( get_theme_mod(
-              'misty_house_footer_col1_title',
-              __( 'MistyHouse', 'misty-house' )
-            ) ); ?></h4>
-            <ul>
-              <li>
-                <a href="<?php echo esc_url( get_theme_mod(
-                  'misty_house_footer_col1_link1_url',
-                  home_url( '/' )
-                ) ); ?>">
-                  <?php echo esc_html( get_theme_mod(
-                    'misty_house_footer_col1_link1_text',
-                    __( 'Domov', 'misty-house' )
-                  ) ); ?>
-                </a>
-              </li>
-            </ul>
-          </div>
+	// WooCommerce URLs (safe fallbacks if WC is not active)
+	$shop_url     = function_exists( 'wc_get_page_id' )        ? get_permalink( wc_get_page_id( 'shop' ) )    : home_url( '/shop/' );
+	$cart_url     = function_exists( 'wc_get_cart_url' )       ? wc_get_cart_url()                            : home_url( '/cart/' );
+	$checkout_url = function_exists( 'wc_get_checkout_url' )   ? wc_get_checkout_url()                        : home_url( '/checkout/' );
 
-          <!-- Center column -->
-          <div class="footer-column footer-column--center">
-            <p class="footer-copyright-text">
-              <?php echo wp_kses_post( get_theme_mod(
-                'misty_house_footer_copyright_text',
-                sprintf(
-                  '&copy; %1$s %2$s',
-                  date( 'Y' ),
-                  __( 'Všetky práva vyhradené spoločnosťou MistyHouse', 'misty-house' )
-                )
-              ) ); ?>
-            </p>
-            <p><?php echo wp_kses_post( get_theme_mod(
-              'misty_house_footer_col2_paragraph',
-              __( 'Posledný okruh pekla je rezervovaný pre ľudí, ktorí robia bordel na horách a pre tých, ktorí perú Misty tričká s inými.', 'misty-house' )
-            ) ); ?></p>
-          </div>
+	// helper: link by slug or fallback URL
+	if ( ! function_exists( 'mh_link_or_fallback' ) ) {
+		function mh_link_or_fallback( $slug, $fallback ) {
+			if ( $p = get_page_by_path( $slug ) ) {
+				return get_permalink( $p->ID );
+			}
+			return home_url( $fallback );
+		}
+	}
+	?>
+	<footer
+		class="misty-footer"
+		data-bg="<?php echo esc_url( $footer_bg_url ); ?>"
+		style="background-color:#000;"
+	>
+		<div class="footer-content">
 
-          <!-- Right column -->
-          <div class="footer-column footer-column--right">
-            <h4><?php echo esc_html( get_theme_mod(
-              'misty_house_footer_col3_title',
-              __( 'Podpora', 'misty-house' )
-            ) ); ?></h4>
-            <ul>
-              <li>
-                <a href="<?php
-                  $p = get_page_by_path( 'kontakt' );
-                  echo esc_url( $p ? get_permalink( $p->ID ) : home_url( '/kontakt/' ) );
-                ?>"><?php esc_html_e( 'Kontakt', 'misty-house' ); ?></a>
-              </li>
-              <li>
-                <a href="<?php
-                  $p = get_page_by_path( 'gdpr' );
-                  echo esc_url( $p ? get_permalink( $p->ID ) . '#gdpr' : home_url( '/gdpr/' ) );
-                ?>"><?php esc_html_e( 'GDPR', 'misty-house' ); ?></a>
-              </li>
-              <li>
-                <a href="<?php
-                  $p = get_page_by_path( 'gdpr' );
-                  echo esc_url( $p ? get_permalink( $p->ID ) . '#vratenie' : home_url( '/gdpr/' ) );
-                ?>"><?php esc_html_e( 'Vrátenie tovaru', 'misty-house' ); ?></a>
-              </li>
-            </ul>
-          </div>
+			<!-- TOP: copyright + claim -->
+			<div class="footer-top">
+				<p class="footer-copyright-text">
+					<?php
+					echo wp_kses_post(
+						get_theme_mod(
+							'misty_house_footer_copyright_text',
+							sprintf(
+								'&copy; %1$s %2$s',
+								date( 'Y' ),
+								__( 'Všetky práva vyhradené spoločnosťou MistyHouse', 'misty-house' )
+							)
+						)
+					);
+					?>
+				</p>
+				<p class="footer-claim">
+					<?php
+					echo wp_kses_post(
+						get_theme_mod(
+							'misty_house_footer_col2_paragraph',
+							__( 'Posledný okruh pekla je rezervovaný pre ľudí, ktorí robia bordel na horách a pre tých, ktorí perú Misty tričká s inými.', 'misty-house' )
+						)
+					);
+					?>
+				</p>
+			</div>
 
-        </div>
-      </div>
-    </footer>
-    <?php
+			<!-- GRID: columns under the top text -->
+			<div class="footer-grid">
 
-    $footer_html = ob_get_clean();
-    set_transient( $cache_key, $footer_html, HOUR_IN_SECONDS );
+				<!-- LEFT: MistyHouse navigation -->
+				<div class="footer-column footer-column--left">
+					<h4>
+						<?php echo esc_html( get_theme_mod( 'misty_house_footer_col1_title', __( 'MistyHouse', 'misty-house' ) ) ); ?>
+					</h4>
+					<ul class="footer-list footer-list--primary">
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Domov', 'misty-house' ); ?></a></li>
+						<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Obchod', 'misty-house' ); ?></a></li>
+						<li><a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'Košík', 'misty-house' ); ?></a></li>
+						<li><a href="<?php echo esc_url( $checkout_url ); ?>"><?php esc_html_e( 'Pokladňa', 'misty-house' ); ?></a></li>
+					</ul>
+				</div>
+
+				<div class="footer-column footer-column--support">
+  <h4><?php esc_html_e( 'Podpora', 'misty-house' ); ?></h4>
+  <ul class="footer-list footer-list--support">
+    <li><a href="<?php echo esc_url( mh_link_or_fallback( 'kontakt', '/kontakt/' ) ); ?>"><?php esc_html_e( 'Kontakt', 'misty-house' ); ?></a></li>
+    <li><a href="<?php echo esc_url( mh_link_or_fallback( 'reklamacie', '/reklamacie/' ) ); ?>"><?php esc_html_e( 'Reklamácie', 'misty-house' ); ?></a></li>
+  </ul>
+</div>
+
+<!-- RIGHT: Informácie -->
+<div class="footer-column footer-column--legal">
+  <h4><?php esc_html_e( 'Informácie', 'misty-house' ); ?></h4>
+  <ul class="footer-list footer-list--legal">
+    <li>
+      <a href="<?php echo esc_url( mh_link_or_fallback( 'vseobecne-obchodne-podmienky', '/vop/' ) ); ?>">
+        <span class="label-desktop"><?php esc_html_e('Všeobecné obchodné podmienky (VOP)','misty-house'); ?></span>
+        <span class="label-mobile"><?php esc_html_e('VOP','misty-house'); ?></span>
+      </a>
+    </li>
+    <li>
+      <a href="<?php echo esc_url( mh_link_or_fallback( 'gdpr', '/gdpr/' ) ); ?>">
+        <span class="label-desktop"><?php esc_html_e('Ochrana osobných údajov (GDPR)','misty-house'); ?></span>
+        <span class="label-mobile"><?php esc_html_e('GDPR','misty-house'); ?></span>
+      </a>
+    </li>
+    <li class="hide-on-mobile">
+      <a href="<?php echo esc_url( mh_link_or_fallback( 'cookies', '/cookies/' ) ); ?>">
+        <?php esc_html_e('Zásady používania cookies','misty-house'); ?>
+      </a>
+    </li>
+  </ul>
+</div>
+				</div>
+
+			</div><!-- /.footer-grid -->
+		</div><!-- /.footer-content -->
+	</footer>
+	<?php
+
+	$footer_html = ob_get_clean();
+	set_transient( $cache_key, $footer_html, HOUR_IN_SECONDS );
 }
 
-// Output the cached or freshly generated footer
+// output
 echo $footer_html;
 
-// Standard WP footer hook
+// wp footer hook
 wp_footer();
 ?>
 </body>

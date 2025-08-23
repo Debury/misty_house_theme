@@ -157,7 +157,7 @@ function mh_handle_contact_form() {
     }
 
     // 4) Build email
-    $to      = get_option( 'admin_email' );
+    $to      = 'boss@mistyhouse.sk';
     $subject = sprintf( 'Kontakt od %s %s', $first, $last );
     $body    = "Meno: $first $last\n"
              . "Email: $email\n"

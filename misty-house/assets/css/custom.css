@@ -3164,3 +3164,313 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
   cursor: not-allowed !important;
   pointer-events: none;
 }
+
+/* FOOTER – mobilné členenie primárna navi vs podpora/právne */
+@media (max-width: 768px) {
+  .misty-footer { padding: 36px 18px !important; }
+
+  /* poradie: navi (ľavý), stred, podpora (pravý) */
+  .footer-column--left   { order: 1; }
+  .footer-column--center { order: 2; text-align: center !important; max-width: 520px; margin-inline:auto; }
+  .footer-column--right  { order: 3; }
+
+  /* skryť malé nadpisy, nech je to kompaktnejšie */
+  .misty-footer .footer-column h4 { display: none !important; }
+
+  /* mriežky odkazov */
+  .footer-list--primary,
+  .footer-list--support {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(120px, 1fr)) !important;
+    gap: 8px 16px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  /* vizuálne oddelenie – odstup pod primárnou navigáciou */
+  .footer-list--primary {
+    margin-bottom: 24px !important;
+  }
+
+  /* deliaca čiara nad „Podpora/Právne“ + menší odstup od stredu */
+  .footer-column--right {
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+}
+
+
+/* layout pre novú štruktúru */
+.misty-footer .footer-top {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+.misty-footer .footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* dva stĺpce pod sebou */
+  gap: 30px;
+  align-items: start;
+}
+
+/* mobil */
+@media (max-width: 768px) {
+  .misty-footer .footer-grid {
+    grid-template-columns: 1fr; /* stĺpce pod seba */
+    gap: 22px;
+  }
+  .misty-footer .footer-column h4 { display: none; } /* ponechaj ak chceš kompaktnejšie */
+  .misty-footer .footer-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px,1fr));
+    gap: 8px 16px;
+    list-style: none;
+    margin: 0; padding: 0;
+    justify-items: center;
+    text-align: center;
+  }
+  .misty-footer .footer-list--primary { margin-bottom: 8px; }
+}
+
+/* Pravý blok: dve kolónky (Podpora + Informácie) */
+.footer-right-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px 40px;
+}
+
+/* konzistencia zoznamov */
+.footer-right-grid .footer-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.footer-right-grid .footer-list li{ margin:8px 0; }
+
+/* Mobil: nech sú oba stĺpce viditeľné a vyplnia šírku */
+@media (max-width:768px){
+  .footer-right-grid{
+    grid-template-columns:1fr 1fr;   /* dva stĺpce na mobile = žiadne prázdne miesto */
+    gap:18px 22px;
+  }
+  .footer-right-grid h4{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  .footer-right-grid .footer-list{
+    display:grid;
+    grid-template-columns:1fr;       /* v každej kolónke vertikálne, prehľadné */
+    justify-items:center;
+    text-align:center;
+  }
+}
+
+
+/* Centrovanie obsahu + tri vyvážené stĺpce na desktope */
+.misty-footer .footer-content{ max-width:1200px; margin:0 auto; padding:0 24px; }
+@media (min-width: 992px){
+  .misty-footer .footer-grid{
+    display:grid; grid-template-columns:repeat(3, minmax(220px,1fr));
+    gap:32px 48px; align-items:start; max-width:1000px; margin:0 auto;
+  }
+}
+
+/* Mobil: krátke labely a skryté cookies */
+@media (max-width: 768px){
+  .label-desktop{ display:none; }
+  .label-mobile{ display:inline; }
+  .hide-on-mobile{ display:none !important; }
+
+  .misty-footer .footer-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:18px 22px;
+    text-align:center; justify-items:center;
+  }
+}
+@media (min-width: 769px){
+  .label-desktop{ display:inline; }
+  .label-mobile{ display:none; }
+}
+
+/* ===========================
+   FOOTER — MOBILNÁ ÚPRAVA
+   (max 768px):
+   1) Zmeníme poradie stĺpcov: Podpora, Informácie, potom MistyHouse.
+   2) Pridáme deliacu čiaru nad MistyHouse.
+   3) MistyHouse odkazy zobrazíme ako grid (2 stĺpce).
+   4) Skrátené labely VOP/GDPR ostávajú.
+   =========================== */
+@media (max-width: 768px){
+
+  /* stacking namiesto 2-stĺpcovej mriežky */
+  .misty-footer .footer-grid{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+    text-align: left !important;
+  }
+
+  /* poradie: 1) Podpora, 2) Informácie, 3) MistyHouse */
+  .misty-footer .footer-column--support{ order: 1; }
+  .misty-footer .footer-column--legal{   order: 2; }
+  .misty-footer .footer-column--left{    order: 3; }
+
+  /* skryjeme H4 v MistyHouse, nech sa správa ako blok odkazov */
+  .misty-footer .footer-column--left h4{ display:none !important; }
+
+  /* deliaca čiara nad MistyHouse blokom */
+  .misty-footer .footer-column--left{
+    position: relative;
+    padding-top: 16px;
+    margin-top: 6px;
+  }
+  .misty-footer .footer-column--left::before{
+    content:"";
+    display:block;
+    position:absolute;
+    left:0; right:0; top:0;
+    height:1px;
+    background: rgba(255,255,255,.25);
+  }
+
+  /* MistyHouse odkazy → pekný grid 2 stĺpce, centrované */
+  .misty-footer .footer-list--primary{
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(120px, 1fr)) !important;
+    gap: 14px 24px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+  .misty-footer .footer-list--primary li{ margin:0 !important; }
+  .misty-footer .footer-list--primary a{
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  /* nadpisy Podpora/Informácie nech sú kompaktnejšie */
+  .misty-footer .footer-column--support h4,
+  .misty-footer .footer-column--legal h4{
+    margin: 0 0 8px !important;
+  }
+
+  /* skrátené labely + cookies skryté (ak si nemal) */
+  .label-desktop{ display:none !important; }
+  .label-mobile{  display:inline !important; }
+  .hide-on-mobile{ display:none !important; }
+}
+
+/* desktop: dlhé labely (pre istotu) */
+@media (min-width: 769px){
+  .label-desktop{ display:inline !important; }
+  .label-mobile{  display:none  !important; }
+}
+
+
+/* --- GDPR page polish --- */
+
+/* 1) Push content below the fixed header */
+.page-template-page-gdpr .site-main,
+.page-template-page-gdpr .entry-content,
+.page-template-page-gdpr .entry-header {
+  padding-top: clamp(80px, 10vw, 120px);
+}
+
+/* 2) Make anchor jumps stop below the header */
+.page-template-page-gdpr h2,
+.page-template-page-gdpr h3,
+.page-template-page-gdpr h4,
+.page-template-page-gdpr [id] {
+  scroll-margin-top: clamp(80px, 10vw, 120px);
+}
+
+/* 3) Tighter, readable container */
+.page-template-page-gdpr .container,
+.page-template-page-gdpr .entry-content {
+  max-width: 900px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+/* 4) Table of contents layout */
+.page-template-page-gdpr .gdpr-toc {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 24px;
+  padding: 12px 0 18px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+@media (max-width: 720px) {
+  .page-template-page-gdpr .gdpr-toc {
+    grid-template-columns: 1fr;
+  }
+}
+.page-template-page-gdpr .gdpr-toc a {
+  text-decoration: none;
+  opacity: .9;
+}
+.page-template-page-gdpr .gdpr-toc a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* 5) Headings & spacing */
+.page-template-page-gdpr h1 { margin-bottom: .4rem; }
+.page-template-page-gdpr h2 { margin-top: 2.2rem; }
+.page-template-page-gdpr h3 { margin-top: 1.4rem; }
+.page-template-page-gdpr hr  { border-color: rgba(255,255,255,.14); }
+
+/* GDPR page spacing (use your body class if different) */
+.page-template-page-gdpr .entry-header,
+.page-id-39 .entry-header {
+  padding-top: clamp(64px, 8vh, 120px);
+}
+
+/* if you have a contents list with anchors */
+.page-template-page-gdpr h2,
+.page-template-page-gdpr h3 {
+  scroll-margin-top: 100px; /* height of your sticky header */
+}
+
+/* ---------- GDPR page: desktop fixes ---------- */
+@media (min-width: 1024px) {
+  /* 1) Prevent the title from hiding under the sticky header */
+  .gdpr-page {
+    /* adjust if your header is taller/shorter */
+    padding-top: 140px !important;
+  }
+
+  /* 2) When clicking TOC links, stop headings from hiding under header */
+  .gdpr-page section {
+    scroll-margin-top: 140px; /* same as padding-top above */
+  }
+}
+
+/* ---------- Better list indentation ("real tab") ---------- */
+.gdpr-page ul {
+  list-style-type: disc;        /* classic bullet */
+  list-style-position: outside; /* bullet sits outside the text block */
+  margin: 0.75rem 0 1rem;       /* vertical breathing room */
+  padding-left: 1.5rem;         /* the “tab” */
+}
+
+.gdpr-page li {
+  margin: 0.25rem 0;            /* small gap between items */
+}
+
+/* Optional: nicer two-column TOC on wider screens */
+@media (min-width: 768px) {
+  .gdpr-page nav ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .gdpr-page nav ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
