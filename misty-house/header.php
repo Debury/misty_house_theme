@@ -103,11 +103,13 @@
     </a>
   </div>
 
-  <button
-    class="mobile-menu-toggle"
-    id="mobile-menu-toggle"
+  <button class="mobile-menu-toggle" id="mobile-menu-toggle"
     aria-label="<?php esc_attr_e( 'Toggle navigation', 'misty-house' ); ?>"
-  >
-    <span></span><span></span><span></span>
+    aria-expanded="false" aria-controls="nav-links">
+    <img
+      src="<?php echo esc_url( get_theme_file_uri( 'assets/images/menu.svg' ) ); ?>"
+      alt="<?php esc_attr_e( 'Menu', 'misty-house' ); ?>"
+      class="icon-menu"
+    />
   </button>
 </nav>

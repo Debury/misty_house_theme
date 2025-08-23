@@ -2985,8 +2985,8 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 /* enlarge the cart icon to ~32px */
 .nav-cart a img,
 .nav-cart a svg {
-  width: 32px !important;
-  height: 32px !important;
+  width: 40px !important;
+  height: 40px !important;
 }
 
 /* style & position the count badge */
@@ -3474,3 +3474,128 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+
+@media (max-width: 768px) {
+  :root { --mh-bg: #0b0b0b; } /* your dark bg */
+
+  /* unify dark background just on mobile */
+  body, .site, .site-content,
+  .banner-section, .albums-section,
+  .tshirts-section, .fellas-section,
+  .socials-section {
+    background: var(--mh-bg) !important;
+  }
+
+  /* wipe any stray light bg inside banner/socials */
+  .banner-section *, .socials-section * {
+    background-color: transparent !important;
+  }
+
+  /* tight, consistent mobile paddings */
+  .banner-section,
+  .fellas-section,
+  .socials-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .banner-section { padding-top: 12px !important; padding-bottom: 12px !important; }
+
+  /* socials row: smaller + centered with safe gutters */
+  .socials-links, .socials-grid {          /* ← use your wrapper class */
+    max-width: 640px;
+    margin: 0 auto;
+    gap: 12px;
+    padding: 0 6px;
+    justify-content: space-between;
+  }
+  .socials-links a, .socials-grid a {
+    width: 44px; height: 44px;             /* smaller icons on mobile */
+  }
+  .socials-links img, .socials-grid img,
+  .socials-links svg, .socials-grid svg {
+    width: 100%; height: 100%; display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  /* shrink background block */
+  .tshirts-section {
+    padding: 0px 0 40px;     /* less vertical padding */
+    background: #fff !important;
+  }
+
+  /* smaller background “box” look */
+  .tshirts-carousel-wrapper {
+    max-width: 100%;           /* not full-bleed white */
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 10px;
+  }
+
+  /* push tees higher (closer to the rod) */
+  .tshirt-image-wrapper {
+    margin-top: -45px;        /* was -70px, now a bit higher */
+  }
+
+  .tshirts-section::before {
+    top: 40px;   /* adjust smaller = rod closer to top */
+  }
+
+  .tshirt-image-wrapper img {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .tshirts-section {
+    padding-bottom: 30px !important;   /* reduce from big padding */
+  }
+
+  .tshirts-container {
+    padding-bottom: 10px !important;   /* tighten inner container */
+  }
+
+  .tshirt-image-wrapper img {
+    max-height: 220px !important;      /* cap image height so it doesn’t stretch */
+    object-fit: contain;
+  }
+
+    .tshirts-container {
+    scroll-padding-left: 0 !important;  /* kill the left snap offset */
+    padding-left: 0 !important;         /* no visual gutter */
+  }
+
+  /* make sure the very first item has no left margin */
+  .tshirts-container .tshirt-item:first-child {
+    margin-left: 0 !important;
+  }
+
+}
+
+/* Mobile tweaks: smaller vinyls + side padding */
+@media (max-width: 768px) {
+  .albums-section {                 /* add page-side padding */
+    padding: 48px 16px 56px !important;
+  }
+
+  .albums-grid {                    /* a bit of inner gutter */
+    gap: 16px !important;
+    padding: 0 8px !important;
+  }
+
+  .album-image-wrapper {            /* slightly smaller discs */
+    width: 110px !important;
+    height: 110px !important;
+    border-width: 3px;              /* keep the gold ring slim */
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 480px) {
+  .albums-section { padding: 44px 14px 52px !important; }
+  .albums-grid { gap: 14px !important; padding: 0 6px !important; }
+  .album-image-wrapper { width: 98px !important; height: 98px !important; }
+}
+

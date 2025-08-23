@@ -94,3 +94,17 @@ if ( $products->have_posts() ) {
     </button>
   </div>
 </section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var scroller = document.getElementById('tshirts-container');
+  if (!scroller) return;
+
+  // Ensure we start on the first item (no left gutter)
+  var first = scroller.querySelector('.tshirt-item');
+  if (first) {
+    scroller.scrollTo({ left: first.offsetLeft, behavior: 'auto' });
+  }
+});
+</script>
