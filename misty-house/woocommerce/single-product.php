@@ -161,6 +161,8 @@ get_header( 'shop' );
   <div class="social-mosaic-section"><?php get_template_part( 'template-parts/social' ); ?></div>
 </div>
 
+
+
 <?php get_footer( 'shop' ); ?>
 
 <script>
@@ -231,4 +233,63 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+jQuery(function($){
+  // --- toast helper
+  function showToast() {
+    var $t = $('#mh-toast');
+    $t.removeAttr('hidden').addClass('show');
+    setTimeout(function(){ $t.removeClass('show'); setTimeout(function(){ $t.attr('hidden', true); }, 250); }, 3000);
+  }
+
+  // Intercept add-to-cart on single product and do AJAX
+  $(document).on('submit', 'form.cart', function(e){
+    e.preventDefault();
+
+    var $form = $(this);
+    var $btn  = $('#mh-buy-button');
+
+    // guard: require size (you already set #variation_id)
+    if ($('#variation_id').length && !$('#variation_id').val()){
+      // no variation yet – just bail
+      return;
+    }
+
+    $btn.addClass('loading').prop('disabled', true);
+
+    // Build AJAX url (fallback if wc_add_to_cart_params is missing)
+    var ajaxUrl = (typeof wc_add_to_cart_params !== 'undefined')
+      ? wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart')
+      : (window.location.origin + '/?wc-ajax=add_to_cart');
+
+    // Serialize form (includes product_id, quantity, variation_id, attributes, etc.)
+    var payload = $form.serialize();
+
+    $.post(ajaxUrl, payload)
+      .done(function(resp){
+        // success -> refresh fragments, fire Woo event (keeps mini-cart in sync)
+        if (resp && !resp.error){
+          $(document.body).trigger('added_to_cart', [resp.fragments, resp.cart_hash, $btn]);
+          showToast();
+        } else {
+          // fallback: go to cart if Woo says no
+          var cartUrl = (typeof wc_add_to_cart_params !== 'undefined') ? wc_add_to_cart_params.cart_url : '/cart/';
+          window.location = cartUrl;
+        }
+      })
+      .fail(function(){
+        // if AJAX fails for any reason, gracefully fallback to normal submit
+        $form.off('submit');
+        $form.trigger('submit');
+      })
+      .always(function(){
+        // stop the spinner immediately; re-enable button
+        $btn.removeClass('loading').prop('disabled', false);
+      });
+  });
+
+  // Also show toast if other parts of the site add via AJAX (safety net)
+  $(document.body).on('added_to_cart', function(){
+    showToast();
+  });
+});
 </script>

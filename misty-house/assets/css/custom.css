@@ -3602,7 +3602,7 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 .product-description-text {
   position: relative;
   overflow: hidden;
-  max-height: 12rem;                 /* základ: ~8–10 riadkov */
+  max-height: 6rem;                 /* základ: ~8–10 riadkov */
   transition: max-height .25s ease;
 }
 
@@ -3627,6 +3627,7 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 /* tlačidlo */
 .desc-toggle {
   margin-top: 12px;
+  margin-bottom: 12px;
   font-weight: 700;
   border: 1px solid #ffb700;
   background: transparent;
@@ -3639,7 +3640,7 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 /* na širších obrazovkách môžeš ukázať viac textu pred „viac“ */
 @media (min-width: 992px) {
   .product-description-text {
-    max-height: 14rem;               /* desktop – viac riadkov pred rozbalením */
+    max-height: 8rem;               /* desktop – viac riadkov pred rozbalením */
   }
 }
 
@@ -3690,4 +3691,36 @@ label[for="mh-quantity"] {
 .albums-section {
   background-color: #000; /* same as banners */
   color: #fff;            /* optional, so text is readable */
+}
+
+.more-button {
+  margin-top: 24px;  /* space above button */
+  margin-bottom: 24px; /* give space under button */
+}
+
+/* Ak NIE JE button, gradient sa schová */
+.content-fade:not(:has(.more-button))::after {
+  display: none;
+}
+
+.mh-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: black;
+  color: white;
+  border: 2px solid gold;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 0 10px gold;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mh-toast.show {
+  opacity: 1;
+  transform: translateY(0);
 }
