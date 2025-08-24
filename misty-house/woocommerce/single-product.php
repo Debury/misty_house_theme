@@ -167,135 +167,74 @@ get_header( 'shop' );
 
 <script>
 jQuery(function($){
-  // Swap src, data-full, data-thumb, data-role between main & clicked thumb
-  $(document).on('click', '.mh-thumb', function(){
-    var $thumb       = $(this),
-        $main        = $('#mh-main-img'),
-        thumbSrc     = $thumb.attr('src'),
-        thumbFull    = $thumb.data('full'),
-        thumbRole    = $thumb.data('role'),
-        mainSrc      = $main.attr('src'),
-        mainFull     = $main.data('full'),
-        mainThumb    = $main.data('thumb'),
-        mainRole     = $main.data('role');
 
-    // swap them
-    $main
-      .attr('src', thumbFull)
-      .data('full', thumbFull)
-      .data('thumb', thumbSrc)
-      .data('role', thumbRole)
-      .removeAttr('srcset');
-
-    $thumb
-      .attr('src', mainThumb)
-      .data('full', mainFull)
-      .data('thumb', mainThumb)
-      .data('role', mainRole);
-  });
-
-  // 1) New toggleBuy: only enable if *some* size-btn.selected exists and isn't disabled
-  function toggleBuy(){
-    var $sel = $('.size-btn.selected');
-    var ok  = $sel.length > 0 && !$sel.hasClass('disabled');
-    $('#mh-buy-button').prop('disabled', !ok);
-  }
-
-  // 2) Whenever a size is clicked, mark selected and call toggleBuy
-  $(document).on('click', '.size-selector .size-btn:not(.disabled)', function(){
-    $('.size-btn').removeClass('selected');
-    $(this).addClass('selected');
-    // also set your hidden fields as before...
-    $('#selected_size').val( $(this).text().trim() );
-    $('#variation_id').val( $(this).data('variation-id') || '' );
-
-    toggleBuy();
-  });
-
-  // 3) On page load, ensure it's definitely off
-  toggleBuy();
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-  var box = document.querySelector('.product-description-text');
-  var btn = document.getElementById('mh-desc-toggle');
-  if (!box || !btn) return;
-
-  // ukáž tlačidlo len keď je text dlhší než orez
-  var needsToggle = box.scrollHeight > box.clientHeight + 16; // buffer
-  if (needsToggle) {
-    btn.hidden = false;
-  }
-
-  btn.addEventListener('click', function(){
-    var expanded = box.classList.toggle('is-expanded');
-    btn.textContent = expanded ? 'Menej' : 'Zobraziť viac';
-  });
-});
-
-jQuery(function($){
   // --- toast helper
-  function showToast() {
-    var $t = $('#mh-toast');
-    $t.removeAttr('hidden').addClass('show');
-    setTimeout(function(){ $t.removeClass('show'); setTimeout(function(){ $t.attr('hidden', true); }, 250); }, 3000);
+  function toast(msg){
+    var $t = $('<div class="mh-toast"></div>').text(msg).css({
+      position:'fixed', right:'20px', bottom:'20px',
+      background:'#000', color:'#fff', border:'2px solid gold',
+      padding:'10px 14px', borderRadius:'10px',
+      opacity:0, transition:'opacity .25s', zIndex:9999,
+      boxShadow:'0 0 12px gold'
+    });
+    $('body').append($t);
+    requestAnimationFrame(()=> $t.css('opacity',1));
+    setTimeout(()=>{ $t.css('opacity',0); setTimeout(()=> $t.remove(),250); },3000);
   }
 
-  // Intercept add-to-cart on single product and do AJAX
- $(document).on('submit', 'form.cart', function(e){
-  e.preventDefault();
-  e.stopPropagation();
+  // Intercept add-to-cart
+  $(document).on('submit', 'form.cart, form.variations_form.cart', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation(); // 🔑 prevents other handlers firing
 
-  var $form = $(this);
-  var $btn  = $('#mh-buy-button');
+    var $form = $(this);
+    var $btn  = $('#mh-buy-button');
 
-  // require variation if present
-  if ($('#variation_id').length && !$('#variation_id').val()){
-    // no size chosen
-    return false;
-  }
-
-  $btn.addClass('loading').prop('disabled', true);
-
-  // Build AJAX url (fallback if wc_add_to_cart_params is missing)
-  var ajaxUrl = (typeof wc_add_to_cart_params !== 'undefined')
-    ? wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart')
-    : (window.location.origin + '/?wc-ajax=add_to_cart');
-
-  // Ensure disabled qty is serialized
-  var $qty = $('#mh-quantity');
-  var wasDisabled = $qty.prop('disabled');
-  if (wasDisabled) $qty.prop('disabled', false);
-  var payload = $form.serialize();
-  if (wasDisabled) $qty.prop('disabled', true);
-
-  $.ajax({
-    url: ajaxUrl,
-    type: 'POST',
-    dataType: 'json',
-    data: payload
-  })
-  .done(function(resp){
-    if (resp && !resp.error){
-      // keep mini-cart in sync
-      $(document.body).trigger('added_to_cart', [resp.fragments, resp.cart_hash, $btn]);
-      showToast(); // your existing toast
-    } else {
-      // no redirect — just notify
-      showToast();
-      console.warn('Add to cart error response:', resp);
+    // require variation if present
+    if ($('#variation_id').length && !$('#variation_id').val()){
+      toast('Please select a size first.');
+      return false;
     }
-  })
-  .fail(function(xhr){
-    // no normal submit fallback — just notify
-    showToast();
-    console.error('AJAX add_to_cart failed:', xhr);
-  })
-  .always(function(){
-    $btn.removeClass('loading').prop('disabled', false);
+
+    $btn.addClass('loading').prop('disabled', true);
+
+    // Build AJAX URL safely
+    if (typeof wc_add_to_cart_params === 'undefined' || !wc_add_to_cart_params.wc_ajax_url){
+      toast('WooCommerce AJAX not available');
+      $btn.removeClass('loading').prop('disabled', false);
+      return false;
+    }
+    var ajaxUrl = wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart');
+
+    // Serialize including qty (make sure it isn’t disabled)
+    var $qty = $('#mh-quantity');
+    var wasDisabled = $qty.prop('disabled');
+    if (wasDisabled) $qty.prop('disabled', false);
+    var payload = $form.serialize();
+    if (wasDisabled) $qty.prop('disabled', true);
+
+    $.ajax({
+      url: ajaxUrl,
+      type: 'POST',
+      dataType: 'json',
+      data: payload
+    }).done(function(resp){
+      if (resp && !resp.error){
+        $(document.body).trigger('added_to_cart',[resp.fragments, resp.cart_hash, $btn]);
+        toast('✅ Added to cart!');
+      } else {
+        toast('⚠️ Could not add to cart');
+        console.warn('Woo response error:', resp);
+      }
+    }).fail(function(xhr){
+      toast('⚠️ AJAX request failed');
+      console.error('AJAX add_to_cart failed:', xhr);
+    }).always(function(){
+      $btn.removeClass('loading').prop('disabled', false);
+    });
+
+    return false;
   });
 
-  return false;
-});
 });
 </script>
