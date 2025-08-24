@@ -242,54 +242,60 @@ jQuery(function($){
   }
 
   // Intercept add-to-cart on single product and do AJAX
-  $(document).on('submit', 'form.cart', function(e){
-    e.preventDefault();
+ $(document).on('submit', 'form.cart', function(e){
+  e.preventDefault();
+  e.stopPropagation();
 
-    var $form = $(this);
-    var $btn  = $('#mh-buy-button');
+  var $form = $(this);
+  var $btn  = $('#mh-buy-button');
 
-    // guard: require size (you already set #variation_id)
-    if ($('#variation_id').length && !$('#variation_id').val()){
-      // no variation yet – just bail
-      return;
+  // require variation if present
+  if ($('#variation_id').length && !$('#variation_id').val()){
+    // no size chosen
+    return false;
+  }
+
+  $btn.addClass('loading').prop('disabled', true);
+
+  // Build AJAX url (fallback if wc_add_to_cart_params is missing)
+  var ajaxUrl = (typeof wc_add_to_cart_params !== 'undefined')
+    ? wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart')
+    : (window.location.origin + '/?wc-ajax=add_to_cart');
+
+  // Ensure disabled qty is serialized
+  var $qty = $('#mh-quantity');
+  var wasDisabled = $qty.prop('disabled');
+  if (wasDisabled) $qty.prop('disabled', false);
+  var payload = $form.serialize();
+  if (wasDisabled) $qty.prop('disabled', true);
+
+  $.ajax({
+    url: ajaxUrl,
+    type: 'POST',
+    dataType: 'json',
+    data: payload
+  })
+  .done(function(resp){
+    if (resp && !resp.error){
+      // keep mini-cart in sync
+      $(document.body).trigger('added_to_cart', [resp.fragments, resp.cart_hash, $btn]);
+      showToast(); // your existing toast
+    } else {
+      // no redirect — just notify
+      showToast();
+      console.warn('Add to cart error response:', resp);
     }
-
-    $btn.addClass('loading').prop('disabled', true);
-
-    // Build AJAX url (fallback if wc_add_to_cart_params is missing)
-    var ajaxUrl = (typeof wc_add_to_cart_params !== 'undefined')
-      ? wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart')
-      : (window.location.origin + '/?wc-ajax=add_to_cart');
-
-    // Serialize form (includes product_id, quantity, variation_id, attributes, etc.)
-    var payload = $form.serialize();
-
-    $.post(ajaxUrl, payload)
-      .done(function(resp){
-        // success -> refresh fragments, fire Woo event (keeps mini-cart in sync)
-        if (resp && !resp.error){
-          $(document.body).trigger('added_to_cart', [resp.fragments, resp.cart_hash, $btn]);
-          showToast();
-        } else {
-          // fallback: go to cart if Woo says no
-          var cartUrl = (typeof wc_add_to_cart_params !== 'undefined') ? wc_add_to_cart_params.cart_url : '/cart/';
-          window.location = cartUrl;
-        }
-      })
-      .fail(function(){
-        // if AJAX fails for any reason, gracefully fallback to normal submit
-        $form.off('submit');
-        $form.trigger('submit');
-      })
-      .always(function(){
-        // stop the spinner immediately; re-enable button
-        $btn.removeClass('loading').prop('disabled', false);
-      });
-  });
-
-  // Also show toast if other parts of the site add via AJAX (safety net)
-  $(document.body).on('added_to_cart', function(){
+  })
+  .fail(function(xhr){
+    // no normal submit fallback — just notify
     showToast();
+    console.error('AJAX add_to_cart failed:', xhr);
+  })
+  .always(function(){
+    $btn.removeClass('loading').prop('disabled', false);
   });
+
+  return false;
+});
 });
 </script>
