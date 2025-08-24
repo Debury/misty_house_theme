@@ -1,101 +1,29 @@
 jQuery(function($){
-  let selectedVar  = null;
-  let availableMax = 0;
-
-  // helper to toggle controls
-  function refreshControls(){
-    const $qty = $('#mh-quantity');
-    const $btn = $('#mh-buy-button');
-
-    if (!selectedVar) {
-      $qty.prop('disabled', true);
-      $btn.prop('disabled', true);
-      return;
-    }
-
-    // compute how many are already in cart
-    const inCart   = MH_CART.qty[selectedVar] || 0;
-    const stock    = availableMax;
-    const maxAllow = Math.max(0, stock - inCart);
-
-    // update stock label
-    $('#mh-stock-status').text( maxAllow > 0 ? 'IN STOCK' : 'OUT OF STOCK' );
-
-    // update quantity picker
-    $qty.attr('max', maxAllow)
-        .prop('disabled', maxAllow <= 0);
-    if ( parseInt($qty.val(),10) > maxAllow ) {
-      $qty.val( maxAllow || 1 );
-    }
-
-    // enable buy button only if qty ≥ 1 and ≤ maxAllow
-    const qv = parseInt($qty.val(),10) || 0;
-    $btn.prop('disabled', !(qv >= 1 && qv <= maxAllow));
+  function toast(msg){
+    var $t=$('<div class="mh-toast"></div>').text(msg).css({position:'fixed',right:'20px',bottom:'20px',background:'#000',color:'#fff',border:'2px solid gold',padding:'10px 14px',borderRadius:'10px',opacity:0,transition:'opacity .25s',zIndex:9999,boxShadow:'0 0 12px gold'});
+    $('body').append($t);requestAnimationFrame(()=>{$t.css('opacity',1)});setTimeout(()=>{$t.css('opacity',0);setTimeout(()=>{$t.remove()},250)},3000);
   }
-
-  // size button click
-  $('.size-selector').on('click','button.size-btn:not(.disabled)', function(){
-    const $b = $(this);
-    $('.size-btn').removeClass('selected');
-    $b.addClass('selected');
-
-    selectedVar  = $b.data('variation-id') ? String($b.data('variation-id')) : String($b.data('stock') ? $('#mh-quantity').closest('form').find('input[name="add-to-cart"]').val() : '');
-    availableMax = parseInt( $b.data('stock'), 10 ) || 0;
-
-    // store into hidden fields
-    $('#selected_size').val( $b.text().trim() );
-    $('#variation_id').val( $b.data('variation-id') || '' );
-
-    refreshControls();
+  $(document).on('click','.mh-thumb',function(){
+    var $thumb=$(this),$main=$('#mh-main-img');var thumbSrc=$thumb.attr('src'),thumbFull=$thumb.data('full'),thumbRole=$thumb.data('role');var mainSrc=$main.attr('src'),mainFull=$main.data('full'),mainThumb=$main.data('thumb'),mainRole=$main.data('role');$main.attr('src',thumbFull).data('full',thumbFull).data('thumb',thumbSrc).data('role',thumbRole).removeAttr('srcset');$thumb.attr('src',mainThumb).data('full',mainFull).data('thumb',mainThumb).data('role',mainRole);
   });
-
-  // quantity change
-  $('#mh-quantity').on('input change', function(){
-    const $this = $(this);
-    let v = parseInt($this.val(),10) || 1;
-    const mx = parseInt($this.attr('max'),10) || 1;
-    if ( v < 1 ) v = 1;
-    if ( v > mx )  v = mx;
-    $this.val(v);
-    refreshControls();
+  function toggleBuy(){var ok=$('.size-btn.selected').length>0&&!$('.size-btn.selected').hasClass('disabled');$('#mh-buy-button').prop('disabled',!ok);if(ok)$('#mh-quantity').prop('disabled',false)}
+  $(document).on('click','.size-selector .size-btn:not(.disabled)',function(){
+    $('.size-btn').removeClass('selected');$(this).addClass('selected');$('#selected_size').val($(this).text().trim());$('#variation_id').val($(this).data('variation-id')||'');toggleBuy();
   });
-
-  // AJAX add to cart
-  $('form.cart, form.variations_form.cart').on('submit', function(e){
-    e.preventDefault();
-    const $f  = $(this);
-    const qty = parseInt($('#mh-quantity').val(),10) || 1;
-
-    // build data
-    let data = $f.serialize();
-    data += '&quantity=' + qty +
-            '&' + $.param({ 'add-to-cart': $f.find('input[name="add-to-cart"]').val() });
-
-    $('#mh-buy-button').addClass('loading');
-
-    $.post(
-      wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart'),
-      data,
-      function(resp){
-        $(document.body).trigger('added_to_cart',[ resp.fragments, resp.cart_hash, $f ]);
-        $('#mh-buy-button').removeClass('loading');
-      }
-    );
+  toggleBuy();
+  (function(){var box=document.querySelector('.product-description-text');var btn=document.getElementById('mh-desc-toggle');if(!box||!btn)return;var needsToggle=box.scrollHeight>box.clientHeight+16;if(needsToggle)btn.hidden=false;btn.addEventListener('click',function(){var expanded=box.classList.toggle('is-expanded');btn.textContent=expanded?'Menej':'Zobraziť viac'})})();
+  $(document).on('submit','form.cart, form.variations_form.cart',function(e){
+    e.preventDefault();e.stopImmediatePropagation();
+    var $form=$(this);var $btn=$('#mh-buy-button');
+    if($('#variation_id').length&&!$('#variation_id').val()){toast('Please select a size first.');return false}
+    $btn.addClass('loading').prop('disabled',true);
+    if(typeof wc_add_to_cart_params==='undefined'||!wc_add_to_cart_params.wc_ajax_url){toast('WooCommerce AJAX not available');$btn.removeClass('loading').prop('disabled',false);return false}
+    var ajaxUrl=wc_add_to_cart_params.wc_ajax_url.replace('%%endpoint%%','add_to_cart');
+    var $qty=$('#mh-quantity');var wasDisabled=$qty.prop('disabled');if(wasDisabled)$qty.prop('disabled',false);var payload=$form.serialize();if(wasDisabled)$qty.prop('disabled',true);
+    $.ajax({url:ajaxUrl,type:'POST',dataType:'json',data:payload})
+      .done(function(resp){if(resp&&!resp.error){$(document.body).trigger('added_to_cart',[resp.fragments,resp.cart_hash,$btn]);toast('✅ Added to cart!')}else{toast('⚠️ Could not add to cart')}})
+      .fail(function(){toast('⚠️ AJAX request failed')})
+      .always(function(){$btn.removeClass('loading').prop('disabled',false)});
+    return false;
   });
-
-  // toast
-  $(document.body).on('added_to_cart', function(){
-    const $t = $('<div class="mh-toast">✅ Added to cart!</div>');
-    $('body').append($t);
-    setTimeout(()=> $t.css('opacity',1),10);
-    setTimeout(()=>{
-      $t.css('opacity',0);
-      setTimeout(()=> $t.remove(),300);
-    }, 3000);
-  });
-
-
-
-  // init
-  refreshControls();
 });
