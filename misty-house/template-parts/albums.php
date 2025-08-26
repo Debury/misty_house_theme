@@ -1,22 +1,25 @@
 <?php
 /**
- * Template part for displaying albums section
+ * Template part for displaying albums section (exactly 3 items, each can link out)
  *
  * @package Misty_House
  */
 
 $top_title    = get_theme_mod( 'misty_house_albums_top_title', __( 'Naši fellas z misty house', 'misty-house' ) );
 $bottom_title = get_theme_mod( 'misty_house_albums_bottom_title', __( 'Najlepšie a najnovšie', 'misty-house' ) );
-$albums_count = absint( get_theme_mod( 'misty_house_albums_count', 5 ) );
 
-// Default placeholders
-$default_images = array( 'Ellipse 13.png', 'Ellipse 14.png', 'Ellipse 9.png', 'Ellipse 15.png', 'Ellipse 16.png' );
+// Force exactly 3
+$albums_count = 3;
 
-// Build data array
+// Default placeholders (first 3)
+$default_images = array( 'Ellipse 13.png', 'Ellipse 14.png', 'Ellipse 9.png' );
+
+// Build data array (1..3)
 $albums_data = array();
 for ( $i = 1; $i <= $albums_count; $i++ ) {
     $title = get_theme_mod( "misty_house_album_{$i}_title", sprintf( __( 'Album Title %d', 'misty-house' ), $i ) );
     $image = get_theme_mod( "misty_house_album_{$i}_image", '' );
+    $link  = get_theme_mod( "misty_house_album_{$i}_link", '' ); // NEW: custom link per album
 
     if ( ! $image && isset( $default_images[ $i - 1 ] ) ) {
         $image = get_template_directory_uri() . '/assets/images/' . $default_images[ $i - 1 ];
@@ -26,6 +29,7 @@ for ( $i = 1; $i <= $albums_count; $i++ ) {
         $albums_data[] = array(
             'title' => $title,
             'image' => esc_url( $image ),
+            'link'  => esc_url( $link ),
         );
     }
 }
@@ -39,12 +43,20 @@ for ( $i = 1; $i <= $albums_count; $i++ ) {
   <?php if ( $albums_data ) : ?>
     <div class="albums-grid">
       <?php foreach ( $albums_data as $album ) : ?>
+        <?php
+          $open  = $album['link'] ? '<a href="' . $album['link'] . '">' : '';
+          $close = $album['link'] ? '</a>' : '';
+        ?>
         <div class="album-item">
           <div class="album-image-wrapper">
-            <img src="<?php echo $album['image']; ?>" alt="<?php echo esc_attr( $album['title'] ); ?>">
+            <?php echo $open; ?>
+              <img src="<?php echo $album['image']; ?>" alt="<?php echo esc_attr( $album['title'] ); ?>">
+            <?php echo $close; ?>
           </div>
           <?php if ( $album['title'] ) : ?>
-            <p class="album-title"><?php echo esc_html( $album['title'] ); ?></p>
+            <p class="album-title">
+              <?php echo $open . esc_html( $album['title'] ) . $close; ?>
+            </p>
           <?php endif; ?>
         </div>
       <?php endforeach; ?>

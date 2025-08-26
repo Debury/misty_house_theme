@@ -3724,3 +3724,90 @@ label[for="mh-quantity"] {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Ensure the pin anchors to the image box */
+.products-grid .product-card .product-image { position: relative; }
+
+/* pill badge base */
+.mh-pin{
+  position: absolute;
+  top: 8px; left: 8px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  padding: .28rem .6rem;
+  font-size: .78rem; font-weight: 800; letter-spacing: .04em;
+  border-radius: 9999px;
+  line-height: 1;
+  user-select: none;
+  z-index: 2;
+}
+
+/* gold pill, black text */
+.mh-pin--gold{
+  background: linear-gradient(135deg, #ffb700, #ff8c00);
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 0 0 10px rgba(255,183,0,.35);
+}
+
+/* --- Size chart overlay --- */
+.mh-sizechart-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.7);
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999;
+}
+.mh-sizechart-dialog{
+  background:#000; border:2px solid gold; color:#fff;
+  border-radius:14px; max-width:min(90vw,900px); width:100%;
+  max-height:85vh; overflow:auto; position:relative;
+  box-shadow:0 0 20px rgba(255,215,0,.35);
+}
+.mh-sizechart-close{
+  position:absolute; top:8px; right:10px; background:transparent; border:0;
+  color:#fff; font-size:32px; line-height:1; cursor:pointer;
+}
+.mh-sizechart-content{ padding:20px; }
+.mh-sizechart-content img{ width:100%; height:auto; display:block; border-radius:10px; }
+
+/* --- Size row (label + button) --- */
+.size-row{
+  display:flex; align-items:center; gap:12px; margin-bottom:8px; margin-top:10px;
+}
+.size-row .size-label{
+  font-weight:800; letter-spacing:.05em; color:#fff; opacity:.85;
+}
+.size-chart-trigger{
+  background:#000; color:#ffb700; border:2px solid #ffb700;
+  padding:.35rem .6rem; border-radius:8px; cursor:pointer; font-weight:700;
+}
+.size-chart-trigger:hover{ box-shadow:0 0 12px rgba(255,183,0,.35); }
+
+/* --- Size selector buttons --- */
+.size-selector{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+.size-btn{
+  background:rgba(0,0,0,.85); color:#fff; border:2px solid #fff;
+  padding:.5rem .9rem; border-radius:10px; cursor:pointer; font-weight:700;
+}
+.size-btn.selected{ outline:0; border-color:#ffb700; box-shadow:0 0 12px rgba(255,183,0,.4); }
+.size-btn.disabled{ opacity:.35; cursor:not-allowed; }
+
+/* Quantity */
+.quantity-selector{ display:flex; align-items:center; gap:10px; margin:10px 0 18px; }
+.quantity-selector input[type=number]{
+  width:80px; background:#000; color:#fff; border:2px solid #ffb700; border-radius:8px; padding:.45rem .6rem;
+}
+
+/* Stock labels */
+.stock-status .preorder{ color:#ffb700; font-weight:900; letter-spacing:.02em; }
+
+/* Toast (if used) */
+.mh-toast{
+  position:fixed; bottom:20px; right:20px; background:#000; color:#fff; border:2px solid gold;
+  padding:1rem 1.25rem; border-radius:8px; box-shadow:0 0 10px gold; opacity:0; transform:translateY(16px);
+  transition:opacity .25s ease, transform .25s ease; z-index:9999;
+}
+.mh-toast.show{ opacity:1; transform:translateY(0); }
+
+.stock-status .preorder {
+  color: #fff !important;
+}

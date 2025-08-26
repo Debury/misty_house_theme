@@ -150,33 +150,25 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
         ) );
     }
 
-    //
+   //
     // ALBUMS SECTION
     //
     $wp_customize->add_section( 'misty_house_albums_section', array(
         'title'       => __( 'Albums Section', 'misty-house' ),
         'priority'    => 45,
-        'description' => __( 'Album count, images, titles.', 'misty-house' ),
+        'description' => __( 'Manage the three album bubbles: image, title, and link.', 'misty-house' ),
     ) );
-
-    // How many
-    $wp_customize->add_setting( 'misty_house_albums_count', array(
-        'default'           => 6,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-    $wp_customize->add_control( 'misty_house_albums_count_control', array(
-        'label'       => __( 'Number of Albums', 'misty-house' ),
-        'section'     => 'misty_house_albums_section',
-        'settings'    => 'misty_house_albums_count',
-        'type'        => 'number',
-        'input_attrs' => array( 'min' => 1, 'max' => 20 ),
-    ) );
-
-    // Each album
-    for ( $i = 1; $i <= 6; $i++ ) {
+    
+    // Optional titles above/below (keep your existing top/bottom title settings if you have them)
+    // If not already defined elsewhere, you can add them here:
+    // $wp_customize->add_setting( 'misty_house_albums_top_title', ... );
+    // $wp_customize->add_setting( 'misty_house_albums_bottom_title', ... );
+    
+    // Exactly three albums, each with Image, Title, Link
+    for ( $i = 1; $i <= 3; $i++ ) {
+        // Image
         $wp_customize->add_setting( "misty_house_album_{$i}_image", array(
-            'default'           => get_template_directory_uri() . "/assets/images/Ellipse-" . ( 12 + $i ) . ".png",
+            'default'           => get_template_directory_uri() . "/assets/images/Ellipse-" . (12 + $i) . ".png",
             'sanitize_callback' => 'esc_url_raw',
             'transport'         => 'refresh',
         ) );
@@ -185,7 +177,8 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
             'section'  => 'misty_house_albums_section',
             'settings' => "misty_house_album_{$i}_image",
         ) ) );
-
+        
+        // Title
         $wp_customize->add_setting( "misty_house_album_{$i}_title", array(
             'default'           => sprintf( __( 'Album %d', 'misty-house' ), $i ),
             'sanitize_callback' => 'sanitize_text_field',
@@ -197,7 +190,22 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
             'settings' => "misty_house_album_{$i}_title",
             'type'     => 'text',
         ) );
+        
+        // Link (NEW)
+        $wp_customize->add_setting( "misty_house_album_{$i}_link", array(
+            'default'           => '#',
+            'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'refresh',
+        ) );
+        $wp_customize->add_control( "misty_house_album_link_control_{$i}", array(
+            'label'       => sprintf( __( 'Album %d Link URL', 'misty-house' ), $i ),
+            'description' => __( 'When set, the image and the title will be clickable.', 'misty-house' ),
+            'section'     => 'misty_house_albums_section',
+            'settings'    => "misty_house_album_{$i}_link",
+            'type'        => 'url',
+        ) );
     }
+
 
     //
     // SOCIAL MOZAIC SECTION

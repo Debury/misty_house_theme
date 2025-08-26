@@ -156,6 +156,8 @@ get_header(); ?>
     font-size: 1rem;
     font-family: inherit;
     transition: all 0.3s ease;
+    resize: none;
+    width: 100%;
 }
 
 .contact-form input::placeholder,
