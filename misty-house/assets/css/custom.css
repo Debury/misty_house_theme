@@ -895,33 +895,35 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 }
 
 @media (max-width: 768px) {
-
-
-  /* 2) Albums continuous scroll + touch-swipe */
   .albums-grid {
-    display: flex !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    /* Continuous loop animation */
-    animation: scrollAlbumsMobile 25s linear infinite;
-  }
-  .albums-grid::-webkit-scrollbar { display: none; }
-  .album-item {
-    flex: 0 0 auto !important;
-    width: 120px !important;
-    margin-right: 16px !important;
-    scroll-snap-align: center;
-  }
-  /* Duplicate gap on last so loop is smooth */
-  .album-item:last-child {
-    margin-right: 32px !important;
+    display: flex;
+    justify-content: center;   /* keep them centered */
+    align-items: center;
+    gap: 20px;                 /* spacing between items */
+    overflow: hidden;          /* no scrollbars, no swipe */
   }
 
-  /* 3) Pause animation on hover/touch */
-  .albums-grid:hover,
-  .albums-grid:active {
-    animation-play-state: paused !important;
+  .album-item {
+    flex: 0 0 auto;            /* each item fixed size */
+    width: 120px;
+    text-align: center;
+  }
+
+  .album-image-wrapper {
+    width: 120px;
+    height: 120px;
+    border-width: 3px;
+  }
+
+  .album-title {
+    font-size: 0.95rem;
+    margin-top: 8px;
+  }
+
+  .albums-section-top-title,
+  .albums-section-bottom-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
   }
 }
 
@@ -1797,36 +1799,6 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 }
 
 
-@media (max-width: 768px) {
-
-
-  /* 2) Albums continuous scroll + touch-swipe */
-  .albums-grid {
-    display: flex !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    /* Continuous loop animation */
-    animation: scrollAlbumsMobile 25s linear infinite;
-  }
-  .albums-grid::-webkit-scrollbar { display: none; }
-  .album-item {
-    flex: 0 0 auto !important;
-    width: 120px !important;
-    margin-right: 16px !important;
-    scroll-snap-align: center;
-  }
-  /* Duplicate gap on last so loop is smooth */
-  .album-item:last-child {
-    margin-right: 32px !important;
-  }
-
-  /* 3) Pause animation on hover/touch */
-  .albums-grid:hover,
-  .albums-grid:active {
-    animation-play-state: paused !important;
-  }
-}
 
 
 @media only screen and (max-width: 768px) {
