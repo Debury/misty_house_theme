@@ -256,13 +256,14 @@ function mh_detect_sizing( $product ) {
 
 
           <?php
-          $d_raw = $product->get_description() ?: $product->get_short_description();
+          $d_raw   = $product->get_description() ?: $product->get_short_description();
           $has_desc = trim( wp_strip_all_tags( (string) $d_raw ) ) !== '';
+                    
           if ( $has_desc ) : ?>
             <div class="product-description-text" id="mh-desc-box">
               <?php echo wpautop( wp_kses_post( $d_raw ) ); ?>
             </div>
-            <button class="desc-toggle" id="mh-desc-toggle" hidden>Zobraziť viac</button>
+            <button type="button" class="desc-toggle" id="mh-desc-toggle" style="display:none">Zobraziť viac</button>
           <?php endif; ?>
           <button class="desc-toggle" id="mh-desc-toggle" hidden>Zobraziť viac</button>
 

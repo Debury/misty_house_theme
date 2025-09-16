@@ -4271,3 +4271,206 @@ label[for="mh-quantity"] {
   margin: 6px 0 8px !important; /* malý, konzistentný odstup nad/pod SIZE */
   padding-top: 0 !important;
 }
+
+/* Menší zlatý glow okolo tričiek */
+.tshirts-section .tshirt-image-wrapper img{
+  filter:
+    drop-shadow(0 0 8px  rgba(255,183,0,.35))
+    drop-shadow(0 0 18px rgba(255,183,0,.22))
+    drop-shadow(0 0 36px rgba(255,183,0,.12));
+  transition: filter .25s ease;
+}
+
+/* Jemný hover boost (desktop) */
+@media (hover:hover){
+  .tshirts-section .tshirt-item:hover .tshirt-image-wrapper img{
+    filter:
+      drop-shadow(0 0 10px rgba(255,183,0,.45))
+      drop-shadow(0 0 24px rgba(255,183,0,.28))
+      drop-shadow(0 0 48px rgba(255,183,0,.16));
+  }
+}
+
+/* Ešte o chlp slabší glow na mobile */
+@media (max-width: 640px){
+  .tshirts-section .tshirt-image-wrapper img{
+    filter:
+      drop-shadow(0 0 6px  rgba(255,183,0,.32))
+      drop-shadow(0 0 14px rgba(255,183,0,.18));
+  }
+}
+
+
+/* Mobile/Tablety: nech je pattern aj na mobile, nie plná farba */
+@media (max-width: 782px), (max-width: 768px){
+  .tshirts-section{
+    background-image: url('/wp-content/themes/misty-house/assets/images/patterbn.jpg') !important;
+    background-repeat: repeat !important;
+    background-position: center top !important;
+    background-size: auto !important;
+    background-color: transparent !important; /* zruš prípadnú plnú farbu */
+  }
+
+  /* pre istotu – vnútorné wrapre bez vlastného pozadia */
+  .tshirts-section .tshirts-carousel-wrapper,
+  .tshirts-section .tshirts-container,
+  .tshirts-section .tshirt-item,
+  .tshirts-section .tshirt-image-wrapper{
+    background: transparent !important;
+  }
+}
+
+/* Force DARK featured title on mobile */
+@media (max-width: 640px){
+  body .mh-featured-title-section,
+  body .mh-featured-title-section.is-light,
+  body .mh-featured-title-section.is-dark{
+    background:#000 !important;
+    padding-top:20px !important;
+    padding-bottom:12px !important;
+  }
+
+  body .mh-featured-title-section .mh-featured-title-clean{
+    color:#ffb700 !important;
+    text-shadow:0 1px 0 rgba(0,0,0,.45), 0 4px 14px rgba(255,183,0,.22) !important;
+    font-size:clamp(16px, 6.5vw, 28px) !important;
+  }
+}
+
+/* MOBILE FORCE: always dark title */
+@media (max-width: 820px){
+  body .mh-featured-title-section,
+  body .mh-featured-title-section.is-light,
+  body .mh-featured-title-section.is-dark{
+    background:#000 !important;
+    background-image:none !important;
+    margin:0 !important;
+    padding-top:20px !important;
+    padding-bottom:12px !important;
+    min-height:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    filter:none !important;
+  }
+
+  /* ensure no nested element paints white */
+  body .mh-featured-title-section *{
+    background:transparent !important;
+  }
+
+  /* gold text */
+  body .mh-featured-title-section .mh-featured-title-clean{
+    color:#ffb700 !important;
+    text-shadow:0 1px 0 rgba(0,0,0,.45), 0 4px 14px rgba(255,183,0,.22) !important;
+    margin:0 !important;
+    font-size:clamp(16px,6.5vw,28px) !important;
+    line-height:1.1 !important;
+  }
+
+  /* kill any pseudo overlays */
+  body .mh-featured-title-section::before,
+  body .mh-featured-title-section::after{
+    content:none !important;
+    display:none !important;
+  }
+}
+
+
+.product-description-text{
+  position: relative;
+  overflow: visible;
+  max-height: none;
+  margin: 0 0 18px;
+}
+
+.product-description-text.is-clamped{
+  overflow: hidden;
+}
+
+.product-description-text.is-clamped::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3.2rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.65) 100%);
+  pointer-events: none;
+}
+
+/* tlačidlo default skryté – zobrazí ho JS len keď treba */
+#mh-desc-toggle{
+  display: none;
+  background: transparent;
+  border: 0;
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Kill any always-on fade under description */
+.product-description-text::after,
+.custom-single-product .product-info-top .product-description-text::after{
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* Only show fade when we explicitly clamp the box */
+.product-description-text.is-clamped::after{
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.65) 100%);
+  pointer-events: none;
+}
+
+/* Make sure the box itself has no shadow/background */
+.product-description-text{
+  position: relative;
+  overflow: visible;
+  max-height: none;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Fade len keď je clamped – prebi všetko ostatné */
+.custom-single-product .product-info-top .product-description-text.is-clamped::after{
+  content:"" !important;
+  display:block !important;
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:3rem;
+  background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.65) 100%) !important;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Skutočné „clampnutie“ boxu (inak je plná výška) */
+.product-description-text.is-clamped{
+  max-height:7.5rem;   /* cca 4–5 riadkov, uprav podľa chuti */
+  overflow:hidden;
+}
+.product-description-text.is-expanded{
+  max-height:none;
+  overflow:visible;
+}
+
+/* Zobrazit viac – vždy naľavo pod textom */
+.product-info-top #mh-desc-toggle{
+  /* JS ho odskryje, tu len štýl */
+  display: none;
+  margin: 8px 0 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #ffb700;
+  font-family: 'Jockey One', sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  text-align: left;        /* zarovnanie textu v tlačidle */
+  align-self: flex-start;  /* ak je parent flex → naľavo */
+  justify-self: start;     /* ak je parent grid → naľavo */
+}

@@ -81,16 +81,40 @@ jQuery(function($){
      Description "read more" toggle
   ───────────────────────────── */
   (function(){
-    var box=document.querySelector('.product-description-text');
-    var btn=document.getElementById('mh-desc-toggle');
-    if(!box||!btn) return;
-    var needsToggle=box.scrollHeight>box.clientHeight+16;
-    if(needsToggle) btn.hidden=false;
-    btn.addEventListener('click',function(){
-      var expanded=box.classList.toggle('is-expanded');
-      btn.textContent=expanded?'Menej':'Zobraziť viac';
-    });
-  })();
+  var $box = $('.product-description-text');
+  var $btn = $('#mh-desc-toggle');
+  if (!$box.length || !$btn.length) return;
+
+  function clampIfNeeded(){
+    // menší limit na mobile
+    var maxPx = window.matchMedia('(max-width: 768px)').matches ? 120 : 160;
+
+    // reset
+    $box.removeClass('is-clamped').css('max-height','none');
+    $btn.hide().data('expanded', 0).text('Zobraziť viac');
+
+    // ak je text dlhší než limit → clamp + ukáž tlačidlo
+    if ($box[0].scrollHeight > maxPx + 3) {
+      $box.addClass('is-clamped').css('max-height', maxPx + 'px');
+      $btn.show();
+    }
+  }
+
+  clampIfNeeded();
+  $(window).on('resize', clampIfNeeded);
+
+  $btn.on('click', function(){
+    var expanded = $btn.data('expanded') === 1;
+    if (expanded) {
+      // späť do clampu
+      clampIfNeeded();
+    } else {
+      // rozbaliť celé
+      $box.removeClass('is-clamped').css('max-height','none');
+      $btn.data('expanded', 1).text('Skryť text');
+    }
+  });
+})();
 
   /* ─────────────────────────────
      Size Chart overlay open/close
