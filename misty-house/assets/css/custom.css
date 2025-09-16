@@ -4474,3 +4474,58 @@ label[for="mh-quantity"] {
   align-self: flex-start;  /* ak je parent flex → naľavo */
   justify-self: start;     /* ak je parent grid → naľavo */
 }
+
+
+/* "Zobraziť viac" – centricky, s tenkým zlatým borderom, bez glowa */
+.product-info-top #mh-desc-toggle{
+  /* centrum v bežnom flowe */
+  display:block;
+  width:min(100%, 560px);
+  margin:16px auto 0;
+  text-align:center;
+
+  /* centrum aj vo flexe/gride (pre istotu) */
+  align-self:center;
+  place-self:center;
+  flex:0 0 auto;
+
+  /* vzhľad */
+  padding:12px 18px;
+  background:transparent !important;
+  border:2px solid #ffb700 !important;
+  border-radius:12px;
+  color:#ffb700 !important;
+  font-family:'Jockey One', sans-serif;
+  letter-spacing:.02em;
+  line-height:1;
+  text-decoration:none !important;
+  box-shadow:none !important;
+  cursor:pointer;
+  transition:background .2s ease, transform .12s ease;
+}
+.product-info-top #mh-desc-toggle:hover{
+  background:rgba(255,183,0,.08);
+}
+.product-info-top #mh-desc-toggle:active{
+  transform:translateY(1px);
+}
+
+/* rozostup k cene – len keď je tlačidlo viditeľné */
+.product-info-top #mh-desc-toggle:not([hidden]) + .price-section{
+  margin-top:24px;
+}
+.product-info-top #mh-desc-toggle[hidden] + .price-section{
+  margin-top:8px;
+}
+
+/* mobil: mierne kompaktnejšie rozmery */
+@media (max-width:640px){
+  .product-info-top #mh-desc-toggle{
+    width:min(92vw, 520px);
+    margin-top:14px;
+    padding:11px 16px;
+  }
+  .product-info-top #mh-desc-toggle:not([hidden]) + .price-section{
+    margin-top:20px;
+  }
+}
