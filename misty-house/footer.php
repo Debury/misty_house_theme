@@ -85,7 +85,6 @@ if ( false === $footer_html ) {
 						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Domov', 'misty-house' ); ?></a></li>
 						<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Obchod', 'misty-house' ); ?></a></li>
 						<li><a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'Košík', 'misty-house' ); ?></a></li>
-						<li><a href="<?php echo esc_url( $checkout_url ); ?>"><?php esc_html_e( 'Pokladňa', 'misty-house' ); ?></a></li>
 					</ul>
 				</div>
 
