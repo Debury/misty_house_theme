@@ -14,6 +14,12 @@ $arrow_left   = get_template_directory_uri() . '/assets/images/arrow_left.png';
 $arrow_right  = get_template_directory_uri() . '/assets/images/arrow_right.png';
 $placeholder  = get_template_directory_uri() . '/assets/images/t-shirt.png';
 
+/* +++ NEW: pattern bg + fallback +++ */
+$pattern_url = get_template_directory_uri() . '/assets/images/patterbn.jpg';
+if ( ! file_exists( get_template_directory() . '/assets/images/patterbn.jpg' ) ) {
+  $pattern_url = get_template_directory_uri() . '/assets/images/pattern.jpg';
+}
+
 /** (Title riešite osobitne – tu ho zámerne nenechávam) */
 
 /**
@@ -125,6 +131,12 @@ if ( $unique_count === 0 ) {
 </section>
 
 <style>
+
+.tshirts-section{
+background: url('<?php echo esc_url($pattern_url); ?>') center top repeat;
+  /* ak chceš jemnejšie dlaždice, môžeš skúsiť aj:
+     background-size: 480px auto;  (alebo 320px/256px podľa toho, čo sedí) */
+}
 /* Lazy fade (neovplyvní layout) */
 .lazy-fade{ opacity:0; transition:opacity .35s ease; }
 .lazy-fade.is-loaded{ opacity:1; }

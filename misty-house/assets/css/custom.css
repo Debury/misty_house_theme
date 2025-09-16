@@ -27,6 +27,12 @@
   text-align: center;
 }
 
+.tshirts-section{
+  background: url('<?php echo esc_url($pattern_url); ?>') center top repeat;
+  /* ak chceš jemnejšie dlaždice, môžeš skúsiť aj:
+     background-size: 480px auto;  (alebo 320px/256px podľa toho, čo sedí) */
+}
+
 .hero-title-image,
 .hero-title-text {
   filter: drop-shadow(0 0 40px rgba(255, 183, 0, 0.6));
@@ -4071,4 +4077,197 @@ label[for="mh-quantity"] {
     max-width: none !important;
     max-height: none !important;
   }
+}
+
+
+/* MOBILE: odstráň sivú hairline pod title */
+@media (max-width: 768px){
+
+  /* samotný title blok – biela, bez tieňov/borderov */
+  body .mh-featured-title-section{
+    position: relative;
+    background:#fff !important;
+    margin:0 !important;
+    padding:10px 0 6px !important;  /* žiadny extra spodný padding */
+    min-height:48px;
+    border:0 !important;
+    box-shadow:none !important;
+    outline:0 !important;
+  }
+  /* prekresli spodnú hranu bielou (prekryje 1px „hairline“ z ďalšieho bloku) */
+  body .mh-featured-title-section::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:1px;
+    background:#fff;
+    pointer-events:none;
+  }
+
+  /* typické separátory/hranice hneď za title */
+  .mh-featured-title-section + *,
+  .mh-featured-title-section + .tshirts-section,
+  .mh-featured-title-section + .tshirts-section *{
+    border-top:0 !important;
+    box-shadow:none !important;
+    outline:0 !important;
+    background:#fff !important; /* zjednotenie bielej na spoji */
+  }
+
+  /* ak by tam WordPress vložil <hr>/separator */
+  .mh-featured-title-section + hr,
+  .mh-featured-title-section + .wp-block-separator{
+    display:none !important;
+  }
+}
+
+/* === MOBIL: vždy 2 v rade, výrazne menšie bubliny === */
+@media (max-width: 768px){
+  .albums-grid{
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 8px !important;
+    justify-items: center !important;
+    align-items: start !important;
+  }
+
+  .albums-grid .album-item{
+    max-width: none !important;
+    text-align: center;
+  }
+
+  .album-image-wrapper{
+    width: 100% !important;
+    aspect-ratio: 1 / 1;
+    height: auto !important;
+    max-width: 120px !important;   /* ↓ zmenšené */
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+
+  .album-image-wrapper img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .album-title{
+    margin-top: .5rem !important;
+    font-size: .85rem !important;
+  }
+}
+
+/* ešte menšie pri užších šírkach */
+@media (max-width: 600px){
+  .album-image-wrapper{ max-width: 110px !important; }
+  .album-title{ font-size: .8rem !important; }
+}
+
+@media (max-width: 480px){
+  .albums-grid{ gap: 8px !important; }
+  .album-image-wrapper{ max-width: 100px !important; }
+  .album-title{ font-size: .78rem !important; }
+}
+
+@media (max-width: 380px){
+  .albums-grid{ gap: 6px !important; }
+  .album-image-wrapper{ max-width: 90px !important; }
+  .album-title{ font-size: .75rem !important; }
+}
+
+
+/* ===== Single product – MOBILE tune ===== */
+@media (max-width: 768px){
+
+  /* jemný bočný padding, nie fullscreen od kraja */
+  .custom-single-product,
+  .product-main{
+    padding-inline: 12px;
+    box-sizing: border-box;
+  }
+
+  /* hlavná fotka menšia na výšku */
+  .main-product-image{
+    margin: 0 auto 10px;
+    max-height: 40vh;                 /* menšie */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .main-product-image img{
+    width: 100%;
+    height: auto;
+    max-height: 40vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* 3 náhľady v jednom riadku – menšie, bez pretekania */
+  .product-gallery{
+    margin-top: 8px;
+    padding: 0;                        /* padding už je na .product-main */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;                          /* malé medzery */
+    box-sizing: border-box;
+  }
+  .product-gallery .mh-thumb{
+    display: block;
+    width: 100% !important;
+    height: auto;
+    aspect-ratio: 1 / 1;               /* štvorcové */
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 !important;              /* zruš všetky marginy */
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 0 0 auto;                    /* poistka proti fixnej šírke */
+  }
+
+  /* menšie medzery medzi sekciami */
+  .product-info-top{ margin-bottom: 8px; }
+  .price-section{ margin: 6px 0; }
+  .size-row{ margin: 4px 0; }
+
+  /* poistka proti h-scrollu */
+  html, body{ overflow-x: hidden; }
+}
+
+/* tighten gap between IN STOCK and SIZE (mobile) */
+@media (max-width: 768px){
+  .product-info-top{ margin-bottom: 4px !important; }
+
+  .price-section{
+    margin: 2px 0 0 !important;   /* menej miesta pod cenou/stockom */
+  }
+  .stock-status{ margin-top: 0 !important; line-height: 1.1; }
+
+  .product-actions{ margin-top: 0 !important; padding-top: 0 !important; }
+  .variations_form.cart{ margin: 0 !important; }
+
+  .size-row{ margin: 4px 0 6px !important; padding-top: 0 !important; }
+}
+
+/* GLOBAL: stiahni medzeru medzi IN STOCK a SIZE (desktop aj mobile) */
+.product-info-top{ margin-bottom: 6px !important; }
+
+.price-section{
+  margin: 4px 0 0 !important;   /* žiadna extra medzera pod cenou/stockom */
+}
+.stock-status{
+  margin-top: 0 !important;
+  line-height: 1.1;
+}
+
+.product-actions{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+.variations_form.cart{ margin: 0 !important; }
+
+.size-row{
+  margin: 6px 0 8px !important; /* malý, konzistentný odstup nad/pod SIZE */
+  padding-top: 0 !important;
 }

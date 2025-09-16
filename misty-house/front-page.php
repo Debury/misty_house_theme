@@ -10,12 +10,14 @@ get_header();
 // Hero Section
 get_template_part( 'template-parts/hero' );
 
+
+// Banner carousel / Novinky
+get_template_part( 'template-parts/banner' );
+
 // Featured products (WooCommerce)
 get_template_part( 'template-parts/featured-products-title' );
 get_template_part( 'template-parts/featured-products' );
 
-// Banner carousel / Novinky
-get_template_part( 'template-parts/banner' );
 
 // Albums grid
 get_template_part( 'template-parts/albums' );
