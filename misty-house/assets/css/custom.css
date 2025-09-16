@@ -3783,3 +3783,292 @@ label[for="mh-quantity"] {
 .stock-status .preorder {
   color: #fff !important;
 }
+
+/* Mobile fix: 2 per row */
+@media (max-width: 768px) {
+  .albums-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 albums per row */
+    gap: 1.5rem; /* spacing between albums */
+    justify-items: center;
+    align-items: start;
+  }
+
+  .album-item {
+    text-align: center;
+    width: 100%;
+    max-width: 160px; /* keep circles from getting too huge */
+  }
+
+  .album-image-wrapper img {
+    width: 100%;
+    height: auto;
+    max-width: 140px; /* make sure they stay nicely sized */
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+/* Optional: very small phones (stack to 1 column if too narrow) */
+@media (max-width: 400px) {
+  .albums-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* === Albums: center & no left offset === */
+.albums-section {
+  overflow: hidden;            /* ak máš žiaru/box-shadow, nech nič nepretŕča */
+}
+
+.albums-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 v rade na desktop */
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;              /* centrovanie celej mriežky */
+  padding: 0 1rem;             /* malé vnútorné odsadenie */
+  padding-left: 0 !important;  /* keby niekde vznikalo extra odsadenie */
+  justify-items: center;       /* centrovanie položiek v rámci stĺpcov */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.albums-grid .album-item {
+  display: block;              /* <a> aj <div> budú mať rovnaké správanie */
+  text-align: center;
+  width: 100%;
+  max-width: 220px;            /* šírka karty (bublina + text) */
+}
+
+.album-image-wrapper {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;              /* centrovanie samotnej bubliny */
+  position: relative;
+  border-radius: 50%;
+}
+
+.album-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  display: block;              /* odstráni baseline medzeru = žiadny posun */
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Text pod bublinou */
+.album-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 2 v rade na mobile, 1 v rade na extra malých */
+@media (max-width: 768px) {
+  .albums-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .albums-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Desktop zostáva rovnaký ako máš */
+@media (max-width: 600px){
+  .shop-filters{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:10px;
+  }
+  .shop-filters .filter-btn{
+    display:flex;
+    width:100%;             /* v mriežke nech vyplní stĺpec */
+    justify-content:center;
+    padding:12px 14px;
+    border-radius:12px;
+  }
+}
+
+/* === MOBILE-ONLY FIX for banner === */
+@media (max-width: 768px){
+
+  /* box má vždy proporciu 1500x500 (3:1) a je responsívny */
+  .banner-carousel{
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 3 / 1;        /* FIX výšky – vždy „banner“ */
+    border-radius: 12px;
+    overflow: hidden;           /* bez horizontálneho scrollu v boxe */
+  }
+
+  /* vnútro iba vyplní výšku/šírku boxu, nič nebráni scrollu stránky */
+  .banner-container{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;           /* istota: nič netečie von */
+    touch-action: auto;         /* povol vertikálne scrollovanie stránky */
+  }
+
+  .banner-item{
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .banner-item img{
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    object-fit: cover;          /* pekný crop do 3:1 rámu */
+    object-position: center;    /* stred obrázka */
+  }
+
+  /* šípky menšie a dovnútra, aby nezavadzali */
+  .banner-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    line-height: 0;
+    z-index: 5;
+  }
+  .banner-btn.prev{ left: 8px; }
+  .banner-btn.next{ right: 8px; }
+  .banner-btn img{ width: 32px; height: auto; filter: drop-shadow(0 0 8px rgba(0,0,0,.6)); }
+
+  /* skryť prípadný scrollbar */
+  .banner-carousel::-webkit-scrollbar,
+  .banner-container::-webkit-scrollbar{ display: none; }
+
+  /* keby niekde existovali "fixné" výšky z iných štýlov, zruš ich na mobile */
+  .banner-carousel,
+  .banner-container,
+  .banner-item,
+  .banner-item img{
+    max-height: none !important;
+  }
+}
+
+/* === MOBILE: swipeable banners (3:1), no visible scrollbar === */
+@media (max-width: 768px){
+  .banner-carousel{
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 3 / 1;      /* drž výšku v pomere 3:1 */
+    border-radius: 12px;
+    overflow: hidden;          /* skry okraje */
+  }
+
+  .banner-container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;          /* povol horizontálny swipe */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;    /* iOS momentum */
+    scroll-snap-type: x mandatory;        /* snap na slidy */
+    scroll-behavior: smooth;
+    touch-action: pan-x pan-y;            /* nepokazí scroll stránky */
+  }
+
+  .banner-item{
+    flex: 0 0 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    position: relative;
+  }
+
+  .banner-item img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* schovaj mobilný scrollbar */
+  .banner-container::-webkit-scrollbar{ height: 0; }
+}
+
+/* === MOBILE: full-bleed (edge-to-edge) banner, 3:1 ratio === */
+@media (max-width: 768px){
+
+  /* rozbi vnútorný container, aby sekcia šla od kraja po kraj obrazovky */
+  .banner-section .banner-carousel-wrapper{
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    overflow: hidden; /* žiadne „vytekanie“ */
+  }
+
+  /* samotný slider má fixný pomer 3:1 a žiadne zaoblenia */
+  .banner-carousel{
+    width: 100vw;
+    aspect-ratio: 3 / 1;   /* plnohodnotný „banner“ */
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  /* swipe po osy X, snap na slidy */
+  .banner-container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    touch-action: pan-x pan-y;
+  }
+
+  .banner-item{
+    flex: 0 0 100vw;       /* každý slide je presne šírka viewportu */
+    height: 100%;
+    scroll-snap-align: center;
+    position: relative;
+  }
+
+  .banner-item img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;     /* príjemný crop do 3:1 rámu */
+    object-position: center;
+  }
+
+  /* šípky tesne pri okrajoch, menšie, nad obrázkom */
+  .banner-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    line-height: 0;
+    z-index: 2;
+  }
+  .banner-btn.prev{ left: 8px; }
+  .banner-btn.next{ right: 8px; }
+  .banner-btn img{ width: 28px; height: auto; filter: drop-shadow(0 0 8px rgba(0,0,0,.6)); }
+
+  /* indikátory, ak ich používaš */
+  .banner-indicators{ bottom: 8px; }
+
+  /* istota proti dedičným max-height/width z desktopu */
+  .banner-carousel,
+  .banner-container,
+  .banner-item,
+  .banner-item img{
+    max-width: none !important;
+    max-height: none !important;
+  }
+}

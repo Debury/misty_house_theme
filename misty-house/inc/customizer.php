@@ -9,6 +9,39 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Allow absolute URLs, site-relative paths (/path), pure queries (?q=), and '#'
+function misty_house_sanitize_rel_or_abs_url( $value ) {
+    $value = trim( (string) $value );
+
+    if ( $value === '' ) {
+        return '';
+    }
+    if ( $value === '#' ) {
+        return '#';
+    }
+    // site-relative path  (/shop/..., /foo)
+    if ( strpos( $value, '/' ) === 0 ) {
+        return $value;
+    }
+    // pure query (?cat=hoodies)
+    if ( strpos( $value, '?' ) === 0 ) {
+        return $value;
+    }
+    // protocol-relative (//example.com/path)
+    if ( strpos( $value, '//' ) === 0 ) {
+        return esc_url_raw( $value );
+    }
+    // absolute http(s) incl. localhost
+    if ( preg_match( '#^https?://#i', $value ) ) {
+        return esc_url_raw( $value );
+    }
+    // "localhost:8080/shop" -> doplň http://
+    if ( preg_match( '#^[a-z0-9\.\-]+(:\d+)?/.*#i', $value ) ) {
+        return esc_url_raw( 'http://' . $value );
+    }
+    return '';
+}
+
 function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
     //
     // HERO SECTION
@@ -31,7 +64,7 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
         'settings' => 'misty_house_hero_bg_image',
     ) ) );
 
-    // Title image (default to SVG, leave blank to fallback to text)
+    // Title image
     $wp_customize->add_setting( 'misty_house_hero_title_image', array(
         'default'           => get_template_directory_uri() . '/assets/images/Vrstva_1.svg',
         'sanitize_callback' => 'esc_url_raw',
@@ -150,22 +183,42 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
         ) );
     }
 
-   //
+    //
     // ALBUMS SECTION
     //
     $wp_customize->add_section( 'misty_house_albums_section', array(
         'title'       => __( 'Albums Section', 'misty-house' ),
         'priority'    => 45,
-        'description' => __( 'Manage the three album bubbles: image, title, and link.', 'misty-house' ),
+        'description' => __( 'Manage the album bubbles: image, title, and link.', 'misty-house' ),
     ) );
-    
-    // Optional titles above/below (keep your existing top/bottom title settings if you have them)
-    // If not already defined elsewhere, you can add them here:
-    // $wp_customize->add_setting( 'misty_house_albums_top_title', ... );
-    // $wp_customize->add_setting( 'misty_house_albums_bottom_title', ... );
-    
-    // Exactly three albums, each with Image, Title, Link
-    for ( $i = 1; $i <= 3; $i++ ) {
+
+    // Titles above and below
+    $wp_customize->add_setting( 'misty_house_albums_top_title', array(
+        'default'           => __( 'Naši fellas z misty house', 'misty-house' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_albums_top_title_control', array(
+        'label'    => __( 'Top Title', 'misty-house' ),
+        'section'  => 'misty_house_albums_section',
+        'settings' => 'misty_house_albums_top_title',
+        'type'     => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'misty_house_albums_bottom_title', array(
+        'default'           => __( 'Najlepšie a najnovšie', 'misty-house' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_albums_bottom_title_control', array(
+        'label'    => __( 'Bottom Title', 'misty-house' ),
+        'section'  => 'misty_house_albums_section',
+        'settings' => 'misty_house_albums_bottom_title',
+        'type'     => 'text',
+    ) );
+
+    // 4 albums (Image, Title, Link)
+    for ( $i = 1; $i <= 4; $i++ ) {
         // Image
         $wp_customize->add_setting( "misty_house_album_{$i}_image", array(
             'default'           => get_template_directory_uri() . "/assets/images/Ellipse-" . (12 + $i) . ".png",
@@ -177,7 +230,7 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
             'section'  => 'misty_house_albums_section',
             'settings' => "misty_house_album_{$i}_image",
         ) ) );
-        
+
         // Title
         $wp_customize->add_setting( "misty_house_album_{$i}_title", array(
             'default'           => sprintf( __( 'Album %d', 'misty-house' ), $i ),
@@ -190,21 +243,116 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
             'settings' => "misty_house_album_{$i}_title",
             'type'     => 'text',
         ) );
-        
-        // Link (NEW)
+
+        // Link
         $wp_customize->add_setting( "misty_house_album_{$i}_link", array(
-            'default'           => '#',
-            'sanitize_callback' => 'esc_url_raw',
+            'default'           => '',
+            'sanitize_callback' => 'misty_house_sanitize_rel_or_abs_url',
             'transport'         => 'refresh',
         ) );
         $wp_customize->add_control( "misty_house_album_link_control_{$i}", array(
             'label'       => sprintf( __( 'Album %d Link URL', 'misty-house' ), $i ),
-            'description' => __( 'When set, the image and the title will be clickable.', 'misty-house' ),
+            'description' => __( 'Supports absolute (https://…), /relative, ?query, or #.', 'misty-house' ),
             'section'     => 'misty_house_albums_section',
             'settings'    => "misty_house_album_{$i}_link",
             'type'        => 'url',
         ) );
     }
+
+    //
+    // SHOP PAGE (title & text)
+    //
+    $wp_customize->add_section( 'misty_house_shop_section', array(
+        'title'       => __( 'Shop Page', 'misty-house' ),
+        'priority'    => 47,
+        'description' => __( 'Customize the Shop title and text under the title.', 'misty-house' ),
+    ) );
+
+    $wp_customize->add_setting( 'misty_house_shop_title', array(
+        'default'           => __( 'Shop', 'misty-house' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_shop_title_control', array(
+        'label'    => __( 'Shop Title', 'misty-house' ),
+        'section'  => 'misty_house_shop_section',
+        'settings' => 'misty_house_shop_title',
+        'type'     => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'misty_house_shop_subtitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_shop_subtitle_control', array(
+        'label'       => __( 'Shop Text (under title)', 'misty-house' ),
+        'description' => __( 'Optional text shown under the Shop title.', 'misty-house' ),
+        'section'     => 'misty_house_shop_section',
+        'settings'    => 'misty_house_shop_subtitle',
+        'type'        => 'textarea',
+    ) );
+    // — v rámci sekcie 'misty_house_shop_section' —
+    $wp_customize->add_setting( 'misty_house_featured_title', array(
+        'default'           => __( 'Vybrané produkty', 'misty-house' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'misty_house_featured_title_control', array(
+        'label'    => __( 'Featured carousel title', 'misty-house' ),
+        'section'  => 'misty_house_shop_section', // už ju máš
+        'settings' => 'misty_house_featured_title',
+        'type'     => 'text',
+    ) );
+
+    //
+    // CONTACT PAGE (title & text)
+    //
+    $wp_customize->add_section( 'misty_house_contact_section', array(
+        'title'       => __( 'Contact Page', 'misty-house' ),
+        'priority'    => 48,
+        'description' => __( 'Customize the Contact title and text under the title.', 'misty-house' ),
+    ) );
+
+    $wp_customize->add_setting( 'misty_house_contact_title', array(
+        'default'           => __( 'Kontakt', 'misty-house' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_contact_title_control', array(
+        'label'    => __( 'Contact Title', 'misty-house' ),
+        'section'  => 'misty_house_contact_section',
+        'settings' => 'misty_house_contact_title',
+        'type'     => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'misty_house_contact_subtitle', array(
+        'default'           => __( 'Napíš nám správu – radi pomôžeme s objednávkou, spoluprácou alebo čímkoľvek okolo merchu.', 'misty-house' ),
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'misty_house_contact_subtitle_control', array(
+        'label'       => __( 'Contact Text (under title)', 'misty-house' ),
+        'section'     => 'misty_house_contact_section',
+        'settings'    => 'misty_house_contact_subtitle',
+        'type'        => 'textarea',
+    ) );
+
+    // Príjemca e-mailu (default: admin email)
+    $wp_customize->add_setting( 'misty_house_contact_recipient', array(
+        'default'           => 'mistyhouse.store@gmail.com', // <-- sem
+        'sanitize_callback' => 'sanitize_email',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'misty_house_contact_recipient_control', array(
+        'label'       => __( 'E-mail príjemcu', 'misty-house' ),
+        'description' => __( 'Kam dorazia správy z kontaktného formulára.', 'misty-house' ),
+        'section'     => 'misty_house_contact_section',
+        'settings'    => 'misty_house_contact_recipient',
+        'type'        => 'email',
+    ) );
 
 
     //

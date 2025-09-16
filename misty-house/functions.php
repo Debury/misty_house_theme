@@ -157,13 +157,19 @@ function mh_handle_contact_form() {
     }
 
     // 4) Build email
-    $to      = 'boss@mistyhouse.sk';
+    $to = get_theme_mod( 'misty_house_contact_recipient', 'mistyhouse.store@gmail.com' );
+
     $subject = sprintf( 'Kontakt od %s %s', $first, $last );
     $body    = "Meno: $first $last\n"
              . "Email: $email\n"
              . "Telefón: $phone\n\n"
              . "Správa:\n$message\n";
-    $headers = [ "Reply-To: $first $last <$email>" ];
+
+    // nech je to korektne enkódované, Reply-To zostáva na odpisovanie
+    $headers = array(
+        'Content-Type: text/plain; charset=UTF-8',
+        'Reply-To: ' . sprintf('%s %s <%s>', $first, $last, $email),
+    );
 
     // 5) Send
     if ( wp_mail( $to, $subject, $body, $headers ) ) {
