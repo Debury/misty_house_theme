@@ -40,6 +40,8 @@ add_action( 'after_setup_theme', 'misty_house_setup' );
 /**
  * Enqueue styles and scripts
  */
+
+
 function misty_house_scripts() {
     // Main stylesheet versioned by modification time
     $style_version = filemtime( get_stylesheet_directory() . '/style.css' );
@@ -300,6 +302,198 @@ function misty_house_get_cart_count() {
 }
 add_action( 'wp_ajax_get_cart_count', 'misty_house_get_cart_count' );
 add_action( 'wp_ajax_nopriv_get_cart_count', 'misty_house_get_cart_count' );
+
+
+/* ========================================================================
+ * BANNER REPEATER pre Customizer (image + alt, ľubovoľný počet položiek)
+ * - Sanitizácia JSON
+ * - Vlastný Customizer Control (s inline CSS/JS)
+ * - Registrácia sekcie, settingu a ovládacieho prvku
+ * ===================================================================== */
+
+/** 1) Sanitizácia JSON hodnoty (pole objektov { image, alt }) */
+if ( ! function_exists( 'misty_house_sanitize_banners_json' ) ) {
+    function misty_house_sanitize_banners_json( $value ) {
+        $raw = json_decode( wp_unslash( $value ), true );
+        if ( ! is_array( $raw ) ) {
+            return wp_json_encode( [] );
+        }
+        $out = [];
+        foreach ( $raw as $item ) {
+            $img = isset( $item['image'] ) ? esc_url_raw( $item['image'] ) : '';
+            $alt = isset( $item['alt'] )   ? sanitize_text_field( $item['alt'] ) : '';
+            if ( $img ) {
+                $out[] = [ 'image' => $img, 'alt' => $alt ];
+            }
+        }
+        return wp_json_encode( $out );
+    }
+}
+
+/** 2) Vlastný repeater control do Customizera */
+if ( ! class_exists( 'Misty_House_Repeater_Control' ) && class_exists( 'WP_Customize_Control' ) ) {
+    class Misty_House_Repeater_Control extends WP_Customize_Control {
+        public $type = 'misty_house_repeater';
+
+        public function enqueue() {
+            wp_enqueue_media();
+
+            // Malé štýly priamo do Customizera
+            wp_add_inline_style( 'customize-controls', '
+                .mh-repeater .mh-items{ margin:8px 0 10px; }
+                .mh-repeater .mh-item{ background:#fff; border:1px solid #ddd; padding:10px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start; }
+                .mh-repeater .mh-thumb{ width:90px; height:60px; background:#f5f5f5; border:1px solid #e5e5e5; display:flex; align-items:center; justify-content:center; overflow:hidden }
+                .mh-repeater .mh-thumb img{ max-width:100%; max-height:100%; display:block }
+                .mh-repeater .mh-fields{ flex:1 }
+                .mh-repeater .mh-row{ display:flex; gap:8px; margin:6px 0 }
+                .mh-repeater .button-link-danger{ color:#b32d2e; }
+            ');
+
+            // Logika repeateru (bezpečnejšie volanie .set)
+            wp_add_inline_script( 'customize-controls', <<<'JS'
+            (function(api,$){
+              api.bind('ready', function(){
+                $('.mh-repeater').each(function(){
+                  var wrap = $(this);
+                  var input = wrap.find('.mh-repeater-input');
+                  var itemsWrap = wrap.find('.mh-items');
+                  var settingId = wrap.data('setting'); // <- SETTING id!
+
+                  function read(){
+                    try{ return JSON.parse(input.val()||'[]'); }catch(e){ return []; }
+                  }
+                  function write(arr){
+                    var val = JSON.stringify(arr);
+                    input.val(val);
+                    var setting = api(settingId);
+                    if (setting) setting.set(val); // bezpečné volanie
+                  }
+                  function render(){
+                    var arr = read();
+                    itemsWrap.empty();
+                    arr.forEach(function(it, idx){
+                      var row   = $('<div class="mh-item"></div>');
+                      var thumb = $('<div class="mh-thumb"></div>');
+                      thumb.append(it.image ? $('<img/>').attr('src', it.image) : $('<span>—</span>'));
+
+                      var fields = $('<div class="mh-fields"></div>');
+
+                      var urlRow   = $('<div class="mh-row"></div>');
+                      var urlInput = $('<input type="text" class="regular-text" placeholder="Image URL">').val(it.image||'');
+                      var pickBtn  = $('<button type="button" class="button">Select image</button>');
+                      urlRow.append(urlInput, pickBtn);
+
+                      var altRow   = $('<div class="mh-row"></div>');
+                      var altInput = $('<input type="text" class="regular-text" placeholder="Alt text">').val(it.alt||'');
+                      altRow.append(altInput);
+
+                      var actions  = $('<div class="mh-row"></div>');
+                      var delBtn   = $('<button type="button" class="button-link button-link-danger">Remove</button>');
+                      actions.append(delBtn);
+
+                      fields.append(urlRow, altRow, actions);
+                      row.append(thumb, fields);
+                      itemsWrap.append(row);
+
+                      pickBtn.on('click', function(e){
+                        e.preventDefault();
+                        var frame = wp.media({ title:'Select image', library:{ type:'image' }, multiple:false });
+                        frame.on('select', function(){
+                          var at = frame.state().get('selection').first().toJSON();
+                          urlInput.val(at.url).trigger('input');
+                        });
+                        frame.open();
+                      });
+
+                      urlInput.on('input', function(){
+                        arr[idx].image = $(this).val();
+                        write(arr); render();
+                      });
+                      altInput.on('input', function(){
+                        arr[idx].alt = $(this).val();
+                        write(arr);
+                      });
+                      delBtn.on('click', function(e){
+                        e.preventDefault();
+                        arr.splice(idx,1); write(arr); render();
+                      });
+                    });
+                  }
+
+                  wrap.find('.mh-add').on('click', function(e){
+                    e.preventDefault();
+                    var arr = read(); arr.push({image:'', alt:''}); write(arr); render();
+                  });
+
+                  if(!input.val()){ write([]); }
+                  render();
+                });
+              });
+            })(wp.customize, jQuery);
+            JS);
+        }
+
+        public function render_content() {
+            $value = $this->value();
+            if ( empty( $value ) ) $value = '[]';
+
+            // Získaj SETTING id (nie control id)
+            $first_setting = is_array( $this->settings ) ? reset( $this->settings ) : null;
+            $setting_id    = $first_setting ? $first_setting->id : $this->id;
+            ?>
+            <div class="mh-repeater" data-setting="<?php echo esc_attr( $setting_id ); ?>">
+              <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+              <?php if ( $this->description ) : ?>
+                <p class="description customize-control-description"><?php echo esc_html( $this->description ); ?></p>
+              <?php endif; ?>
+              <input type="hidden" class="mh-repeater-input" value="<?php echo esc_attr( $value ); ?>">
+              <div class="mh-items"></div>
+              <p><button type="button" class="button button-primary mh-add"><?php esc_html_e( 'Add banner', 'misty-house' ); ?></button></p>
+            </div>
+            <?php
+        }
+    }
+}
+
+/** 3) Registrácia sekcie + settingu + controlu (samostatný hook) */
+if ( ! function_exists( 'misty_house_register_banner_repeater' ) ) {
+    function misty_house_register_banner_repeater( WP_Customize_Manager $wp_customize ) {
+
+        // Sekcia
+        $wp_customize->add_section( 'misty_house_banner_section', [
+            'title'       => __( 'Banner Carousel', 'misty-house' ),
+            'priority'    => 40,
+            'description' => __( 'Add any number of banner slides (image + alt).', 'misty-house' ),
+        ] );
+
+        // Setting – JSON pole bannerov
+        $wp_customize->add_setting( 'misty_house_banners', [
+            'default'           => '[]',
+            'sanitize_callback' => 'misty_house_sanitize_banners_json',
+            'transport'         => 'refresh',
+            'type'              => 'theme_mod',
+        ] );
+
+        // Control – náš repeater
+        if ( class_exists( 'Misty_House_Repeater_Control' ) ) {
+            $wp_customize->add_control(
+                new Misty_House_Repeater_Control(
+                    $wp_customize,
+                    'misty_house_banners_control',
+                    [
+                        'label'       => __( 'Banners', 'misty-house' ),
+                        'section'     => 'misty_house_banner_section',
+                        'settings'    => 'misty_house_banners',
+                        'description' => __( 'Add as many banners as you wish. Each has an image and alt text.', 'misty-house' ),
+                    ]
+                )
+            );
+        }
+    }
+    add_action( 'customize_register', 'misty_house_register_banner_repeater' );
+}
+
+/* ===================================================================== */
 
 /**
  * Performance optimizations

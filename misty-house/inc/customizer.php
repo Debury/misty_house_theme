@@ -147,41 +147,30 @@ function misty_house_customize_register( WP_Customize_Manager $wp_customize ) {
         ) );
     }
 
-    //
-    // BANNER CAROUSEL
-    //
-    $wp_customize->add_section( 'misty_house_banner_section', array(
-        'title'       => __( 'Banner Carousel', 'misty-house' ),
-        'priority'    => 40,
-        'description' => __( 'Customize slide images and alt texts.', 'misty-house' ),
-    ) );
+// ===== BANNER CAROUSEL (repeater) – priamo v misty_house_customize_register =====
+$wp_customize->add_section( 'misty_house_banner_section', [
+    'title'       => __( 'Banner Carousel', 'misty-house' ),
+    'priority'    => 40,
+    'description' => __( 'Add any number of banner slides (image + alt).', 'misty-house' ),
+] );
 
-    for ( $i = 1; $i <= 3; $i++ ) {
-        // Slide image
-        $wp_customize->add_setting( "misty_house_banner_image_{$i}", array(
-            'default'           => get_template_directory_uri() . '/assets/images/Rectangle-5.png',
-            'sanitize_callback' => 'esc_url_raw',
-            'transport'         => 'refresh',
-        ) );
-        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "misty_house_banner_image_control_{$i}", array(
-            'label'    => sprintf( __( 'Banner Image %d', 'misty-house' ), $i ),
-            'section'  => 'misty_house_banner_section',
-            'settings' => "misty_house_banner_image_{$i}",
-        ) ) );
+$wp_customize->add_setting( 'misty_house_banners', [
+    'default'           => '[]',
+    'sanitize_callback' => 'misty_house_sanitize_banners_json', // funkcia je v globále (krok 1)
+    'transport'         => 'refresh',
+    'type'              => 'theme_mod',
+] );
 
-        // Alt text
-        $wp_customize->add_setting( "misty_house_banner_alt_{$i}", array(
-            'default'           => sprintf( __( 'Banner Image %d', 'misty-house' ), $i ),
-            'sanitize_callback' => 'sanitize_text_field',
-            'transport'         => 'refresh',
-        ) );
-        $wp_customize->add_control( "misty_house_banner_alt_control_{$i}", array(
-            'label'    => sprintf( __( 'Banner Alt Text %d', 'misty-house' ), $i ),
-            'section'  => 'misty_house_banner_section',
-            'settings' => "misty_house_banner_alt_{$i}",
-            'type'     => 'text',
-        ) );
-    }
+$wp_customize->add_control( new Misty_House_Repeater_Control(
+    $wp_customize,
+    'misty_house_banners_control',
+    [
+        'label'       => __( 'Banners', 'misty-house' ),
+        'section'     => 'misty_house_banner_section',
+        'settings'    => 'misty_house_banners',
+        'description' => __( 'Add as many banners as you wish. Each has an image and alt text.', 'misty-house' ),
+    ]
+) );
 
     //
     // ALBUMS SECTION

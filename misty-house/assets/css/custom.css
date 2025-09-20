@@ -249,7 +249,7 @@
 }
 
 @media (max-width: 768px) {
-  .social-grid-desktop { display: none; }
+
   .social-mobile-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1019,14 +1019,7 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
   object-fit: cover;
 }
 
-/* ------------------------------------------------------------------------
-   Social Mosaic — Mobile as one-per-view carousel
------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .social-section {
-    display: none !important;
-  }
-}
+
 /* ---------------------------- */
 /* FOOTER — mobile adjustments */
 /* ---------------------------- */
@@ -1894,9 +1887,7 @@ body.woocommerce-checkout .woocommerce-shipping-fields__title {
 
 /* 2) Mobile: hide desktop grid, show 5-item 2×3 grid */
 @media (max-width: 768px) {
-  .social-grid-desktop {
-    display: none;
-  }
+
   .social-grid-mobile {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -4528,4 +4519,200 @@ label[for="mh-quantity"] {
   .product-info-top #mh-desc-toggle:not([hidden]) + .price-section{
     margin-top:20px;
   }
+}
+
+/* --- MistyHouse: mobile offset fix pod fotkami --- */
+@media (max-width: 900px){
+
+  /* layout nech je 1 stĺpec a nič sa neposúva doprava */
+  .custom-single-product .product-main{
+    display: block !important;     /* rozbije prípadnú grid/columns */
+  }
+
+  /* pravý stĺpec (title + všetko pod fotkami) zarovnať k ľavému okraju */
+  .custom-single-product .product-details{
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* odstráň akékoľvek vnútorné ľavé odsadenia, ktoré robia “šup” doprava */
+  .custom-single-product .product-info-top,
+  .custom-single-product .product-actions{
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  /* istota: obrázky/galéria sa nepretiahnu mimo kontajner */
+  .custom-single-product .product-image-section,
+  .custom-single-product .product-gallery,
+  .custom-single-product .main-product-image img{
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* zabráň horizontálnemu scrollu, ak niečo stále vyčnieva o pár px */
+  .custom-single-product{
+    overflow-x: hidden;
+  }
+}
+/* --- MistyHouse: mobile fix pre description + toggle button --- */
+@media (max-width: 900px){
+
+  /* nech sa všetko v pravom bloku ráta do šírky vrátane bordera */
+  .custom-single-product .product-details,
+  .custom-single-product .product-details *{
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  /* description nech sa neláme mimo kontajner */
+  .custom-single-product #mh-desc-box{
+    margin: 8px 0 12px !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden;                 /* stop horizontálke */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* “Zobraziť viac” na plnú šírku bez presahu */
+  .custom-single-product #mh-desc-toggle,
+  .custom-single-product .desc-toggle{
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 8px 0 16px !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  /* malý vnútorný buffer, aby text a tlačidlo nelepili na rám */
+  .custom-single-product .product-details{
+    padding: 0 12px !important;
+  }
+
+  /* poistka proti odskoku kvôli borderom/tieniom */
+  .custom-single-product{
+    overflow-x: hidden;
+  }
+}
+
+/* --- MistyHouse: mobile title shrink --- */
+@media (max-width: 900px){
+  .custom-single-product .product-series-title{
+    font-size: clamp(22px, 5.6vw, 28px) !important; /* menší, ale čitateľný */
+    line-height: 1.05 !important;
+    letter-spacing: 0.5px;
+    margin: 4px 0 8px !important;
+    text-wrap: balance;         /* lepšie lámanie riadkov (podporované novšími prehliadačmi) */
+    hyphens: auto;
+    overflow: hidden;           /* limit riadkov nižšie */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;      /* max 3 riadky (zmeň na 2, ak chceš) */
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* --- MistyHouse mobile: fix handle + stock offset --- */
+@media (max-width: 900px){
+
+  /* @MistyHouse – menší a svetlosivý na dark pozadí */
+  .custom-single-product .product-handle{
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    color: rgba(255,255,255,.58) !important; /* viditeľná sivá */
+    opacity: 1 !important;
+    display: block;
+    margin: 2px 0 8px !important;
+  }
+
+  /* IN STOCK – bez ľavého odsadenia, zarovnané ako cena */
+  #mh-stock-status{
+    display: block !important;
+    width: fit-content;               /* chip len podľa obsahu */
+    margin: 6px 0 0 0 !important;     /* žiadne ľavé odsadenie */
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    border-left: 0 !important;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  /* stredná veľkosť badge */
+  #mh-stock-status,
+  #mh-stock-status span{
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    padding: px 8px !important;
+    letter-spacing: .2px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px){
+  .hero{ height: 60dvh !important; min-height: 60vh !important; }
+}
+
+/* =============== MOBILE: rovnaký grid, len nech overflowuje + autoplay =============== */
+@media (max-width: 768px){
+  /* mobilnú verziu vypni – používame desktopovú mozaiku */
+  .social-mobile-grid{ display:none !important; }
+
+  /* full-bleed + jemné vnútorné okraje */
+  .social-section{
+    padding: 0 12px !important;               /* bočné paddy */
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important; /* odlep od parent paddingu */
+    margin-right: calc(50% - 50vw) !important;
+    background:#000;
+    overflow: hidden;                          /* počas autoplayu nescrolujeme ručne */
+    touch-action: none;                        /* žiadne gestá počas autoplayu */
+  }
+
+  /* Force-show + fixné bunky, aby sa grid vždy rozšíril a overflowoval */
+  .social-section > .social-grid-desktop{
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    /* Fixné veľkosti buniek na mobile (doladíš podľa oka) */
+    --colW: 240px;
+    --rowH: 160px;
+
+    /* !!! Nechávame tvoj DESKTOP layout (vrátane nth-child pozícií).
+       Len prepisujeme fr na fixné šírky, aby nevznikali diery. */
+    grid-template-columns: repeat(6, var(--colW)) !important;
+    grid-template-rows:    repeat(3, var(--rowH)) !important;
+    gap: 12px !important;
+
+    width: max-content !important;   /* širšie než viewport – základ overflowu */
+    max-width: none !important;
+    margin: 0 !important;
+    justify-content: start !important;
+    align-content: start !important;
+
+    /* istota – žiadne transform/animácie z CSS; autoplay rieši JS cez scrollLeft */
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* počas pauzy povol manuálny horizontálny scroll */
+  .social-section.is-paused{
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x !important;        /* swipe do strán */
+    scroll-behavior: auto;                 /* žiadne smooth, JS si to riadi */
+    cursor: grab;
+  }
+  .social-section.is-paused:active{ cursor: grabbing; }
+
+  /* voliteľné – schovaj scrollbar */
+  .social-section::-webkit-scrollbar{ display:none; }
 }
