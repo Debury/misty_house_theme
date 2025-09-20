@@ -399,7 +399,7 @@ function mh_detect_sizing( $product ) {
   <?php endwhile; ?>
 
   <div class="featured-section"><?php get_template_part('template-parts/featured-products'); ?></div>
-  <div class="social-mosaic-section"><?php get_template_part('template-parts/social'); ?></div>
+
 </div>
 
 <?php get_footer('shop'); ?>

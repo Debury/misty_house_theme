@@ -4716,3 +4716,32 @@ label[for="mh-quantity"] {
   /* voliteľné – schovaj scrollbar */
   .social-section::-webkit-scrollbar{ display:none; }
 }
+
+/* MOBILE – dovoľ vertikálne scrollovanie vždy */
+@media (max-width: 768px){
+  .social-section{
+    /* autoplay stále beží, ale stránku môžeš ťahať hore/dole */
+    overflow: hidden;
+    touch-action: pan-y !important;   /* ← toto opravuje problém */
+  }
+
+  /* keď je pauza, dovoľ aj horizontálny posun mozaiky */
+  .social-section.is-paused{
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y !important; /* obidva smery */
+  }
+}
+
+@media (max-width: 768px){
+  /* dovoľ vždy vertikálne gestá; horizontálu necháme na pauzu */
+  .social-section{ touch-action: pan-y !important; will-change: scroll-position; }
+
+  /* pomôž GPU pri veľa obrázkoch */
+  .social-grid-desktop,
+  .social-grid-desktop .social-item img{
+    backface-visibility: hidden;
+    transform: translateZ(0); /* len hint, nemení layout */
+  }
+}
