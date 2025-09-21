@@ -525,6 +525,9 @@ require get_template_directory() . '/inc/woocommerce.php';
 require get_template_directory() . '/inc/admin-orders.php';
 require get_template_directory() . '/inc/contact-form.php';
 add_filter('rest_batch_enable', '__return_true');
+add_filter('wc_stripe_show_payment_request_on_checkout', '__return_false');
+add_filter('wc_stripe_show_payment_request_on_cart', '__return_false');
+add_filter('wc_stripe_show_payment_request_on_product_page', '__return_false');
 
 // End of functions.php
 
