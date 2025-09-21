@@ -524,5 +524,8 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/woocommerce.php';
 require get_template_directory() . '/inc/admin-orders.php';
 require get_template_directory() . '/inc/contact-form.php';
+add_filter('rest_batch_enable', '__return_true');
 
 // End of functions.php
+
+

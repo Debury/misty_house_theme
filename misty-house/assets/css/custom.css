@@ -4745,3 +4745,21 @@ label[for="mh-quantity"] {
     transform: translateZ(0); /* len hint, nemení layout */
   }
 }
+
+
+.tshirts-section .slick-list,
+.tshirts-section .slick-track,
+.tshirts-section .swiper,
+.tshirts-section .swiper-wrapper,
+.tshirts-section .swiper-slide,
+.tshirts-section .tshirt-item,
+.tshirts-section .tshirt-image-wrapper{
+  overflow: visible !important;
+}
+
+
+.tshirts-section .tshirt-item{
+  padding-bottom: 100px;
+}
+
+.tshirts-section .tshirt-image-wrapper{ position: relative; z-index: 1; }
