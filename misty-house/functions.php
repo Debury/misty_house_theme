@@ -529,6 +529,47 @@ add_filter('wc_stripe_show_payment_request_on_checkout', '__return_false');
 add_filter('wc_stripe_show_payment_request_on_cart', '__return_false');
 add_filter('wc_stripe_show_payment_request_on_product_page', '__return_false');
 
+// Classic obsah (žiadne Blocks)
+add_filter('the_content', function($c){
+  if (is_cart())     return do_shortcode('[woocommerce_cart]');
+  if (is_checkout()) return do_shortcode('[woocommerce_checkout]');
+  return $c;
+}, 999);
+
+// Neťahaj wc-blocks/wc-store assety na cart/checkout
+add_filter('woocommerce_should_load_block_assets', function($yes){
+  if (is_cart() || is_checkout()) return false;
+  return $yes;
+}, 10);
+
+// Brute-force: ak by to niečo predsa len enqueue-lo, zruš to
+add_action('wp_enqueue_scripts', function(){
+  if (! (is_cart() || is_checkout())) return;
+
+  $kill = [
+    'wc-blocks','wc-blocks-checkout','wc-blocks-cart','wc-blocks-registry',
+    'wc-blocks-data-store','wc-blocks-vendors','wc-store-api',
+    'wc-blocks-style','wc-blocks-checkout-style','wc-blocks-cart-style'
+  ];
+  foreach ($kill as $h){ wp_dequeue_script($h); wp_deregister_script($h);
+                         wp_dequeue_style($h);  wp_deregister_style($h); }
+
+  // Bezpečnostná poistka: zneškodni apiFetch volania na /wc/store (len tu!)
+  wp_enqueue_script('wp-api-fetch'); // pre istotu
+  wp_add_inline_script('wp-api-fetch', "
+    if (window.wp && wp.apiFetch) {
+      wp.apiFetch.use((opt, next) => {
+        const p = (opt.path || opt.url || '') + '';
+        if (p.includes('/wc/store/')) {
+          // nič nevolaj, v classic checkoute to nepotrebujeme
+          return Promise.resolve({});
+        }
+        return next(opt);
+      });
+    }
+  ", 'after');
+}, 1000);
+
 // End of functions.php
 
 
