@@ -529,41 +529,11 @@ add_filter('wc_stripe_show_payment_request_on_checkout', '__return_false');
 add_filter('wc_stripe_show_payment_request_on_cart', '__return_false');
 add_filter('wc_stripe_show_payment_request_on_product_page', '__return_false');
 
-// Classic obsah (žiadne Blocks)
-add_filter('the_content', function($c){
-  if (is_cart())     return do_shortcode('[woocommerce_cart]');
-  if (is_checkout()) return do_shortcode('[woocommerce_checkout]');
-  return $c;
-}, 999);
 
-// Neťahaj wc-blocks/wc-store assety na cart/checkout
-add_filter('woocommerce_should_load_block_assets', function($yes){
-  if (is_cart() || is_checkout()) return false;
-  return $yes;
-}, 10);
 
-// Povoliť default Woo štýly iba na cart/checkout (klasický dizajn)
-add_filter('woocommerce_enqueue_styles', function($styles){
-  if (is_cart() || is_checkout()) {
-    return array(
-      'woocommerce-layout' => array(
-        'src'   => plugins_url('woocommerce/assets/css/woocommerce-layout.css'),
-        'deps'  => array(), 'media' => 'all'
-      ),
-      'woocommerce-smallscreen' => array(
-        'src'   => plugins_url('woocommerce/assets/css/woocommerce-smallscreen.css'),
-        'deps'  => array('woocommerce-layout'),
-        'media' => 'only screen and (max-width: 768px)'
-      ),
-      'woocommerce-general' => array(
-        'src'   => plugins_url('woocommerce/assets/css/woocommerce.css'),
-        'deps'  => array('woocommerce-layout'),
-        'media' => 'all'
-      ),
-    );
-  }
-  return $styles; // inde nič nemeníme
-}, 99);
+
+
+
 
 
 // End of functions.php
